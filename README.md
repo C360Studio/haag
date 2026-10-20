@@ -1,14 +1,13 @@
-# ONUS
+# HAAG: Human-Agent Accountability and Governance
 
 **An agentic governance framework. Responsibility can be delegated.
 Accountability cannot.**
 
-ONUS is the plain word: the burden that stays with the person who delegates.
-It governs systems that mix deterministic software with model or agent steps,
-and is built on four questions remembered as **NEAR**: Necessity, Evidence,
-Authority, Recovery.
+HAAG (Human-Agent Accountability and Governance) governs systems that mix
+deterministic software with model or agent steps. It is built on four
+questions remembered as **NEAR**: Necessity, Evidence, Authority, Recovery.
 
-Gateway frameworks govern the pipe. ONUS governs the workflow and the human
+Gateway frameworks govern the pipe. HAAG governs the workflow and the human
 decision.
 
 ## The four questions
@@ -24,14 +23,14 @@ The test across all four is **human use**: can the responsible person
 understand, act, distinguish fact from claim, and recover, without reading
 source code or reconstructing a workflow from raw logs?
 
-ONUS produces findings, not scores. It defines no conformance level, badge, or
+HAAG produces findings, not scores. It defines no conformance level, badge, or
 composite number.
 
 ## What is here
 
 | Path | Contents |
 | :--- | :--- |
-| [spec/onus.md](spec/onus.md) | The specification: twenty-two principles in property / observe / example-mechanisms form, and positioning relative to gateway frameworks. |
+| [spec/haag.md](spec/haag.md) | The specification: twenty-two principles in property / observe / example-mechanisms form, and positioning relative to gateway frameworks. |
 | [protocol/design-walkthrough.md](protocol/design-walkthrough.md) | Design-time audit: map a workflow step by step, then walk one scenario through five stages. |
 | [protocol/h1-operator.md](protocol/h1-operator.md) | Supplement H1: a blind human-operator exercise against a pinned release. |
 | [protocol/templates/](protocol/templates/) | Design walkthrough record, and the H1 reference sheet, operator packet, and case scoring record. |
@@ -71,5 +70,6 @@ and adapt it for any purpose, including commercially, with attribution.
 
 Suggested attribution:
 
-> ONUS: an agentic governance framework, by Complete 360 Studio, licensed
-> under CC BY 4.0. <https://github.com/C360Studio/onus>
+> HAAG (Human-Agent Accountability and Governance): an agentic governance
+> framework, by Complete 360 Studio, licensed under CC BY 4.0.
+> <https://github.com/C360Studio/haag>

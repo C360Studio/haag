@@ -10,7 +10,7 @@
 | Exercise ID | |
 | Target release tag or commit | |
 | Target configuration (how the instance was built and configured) | |
-| ONUS specification and protocol revision applied | |
+| HAAG specification and protocol revision applied | |
 | Scorer | |
 
 Mark any expected result you cannot justify from the specification and the

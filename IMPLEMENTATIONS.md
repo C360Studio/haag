@@ -1,16 +1,16 @@
 # Implementations and History
 
-This file records where ONUS responsibilities are implemented and where the
+This file records where HAAG responsibilities are implemented and where the
 framework came from. It changes more often than the specification and is kept
 separate so the specification can stay architecture-neutral.
 
 ## C360 Studio ecosystem
 
-Within the public C360 Studio ecosystem, ONUS responsibilities are factored
+Within the public C360 Studio ecosystem, HAAG responsibilities are factored
 across architectural boundaries rather than bundled into one governance
 binary.
 
-- **ONUS specification and protocols (this repository).** Owns the four
+- **HAAG specification and protocols (this repository).** Owns the four
   observation questions, the design walkthrough rubric, and the H1 blind
   human-operator protocol.
 - **[SemEngine](https://github.com/C360Studio/semengine).** Owns the generic,
@@ -42,4 +42,4 @@ binary.
 
 Open a pull request adding one entry naming the project, which principles it
 implements, and where a reader can observe them. Entries describe what a
-project implements. They do not claim conformance, because ONUS defines none.
+project implements. They do not claim conformance, because HAAG defines none.
