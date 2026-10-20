@@ -1,15 +1,15 @@
-# ONUS Design and Workflow Walkthrough Protocol
+# HAAG Design and Workflow Walkthrough Protocol
 
 **Version:** 0.1.0-draft
-**Applies to:** [ONUS specification](../spec/onus.md) 0.1.0-draft
+**Applies to:** [HAAG specification](../spec/haag.md) 0.1.0-draft
 **License:** CC BY 4.0
 
-Before or alongside runtime testing, a team can apply ONUS as a structured
+Before or alongside runtime testing, a team can apply HAAG as a structured
 design and workflow audit across every step of an end-to-end journey. The
 output is a per-principle outcome record tagged to specification principles,
 never a score. The step map produced in section 1 is also the coverage basis
 for every observation in the specification (see
-[specification section 1.2](../spec/onus.md#12-how-to-read-this-specification)).
+[specification section 1.2](../spec/haag.md#12-how-to-read-this-specification)).
 
 ## 1. Step-by-step workflow mapping
 

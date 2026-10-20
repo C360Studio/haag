@@ -8,7 +8,7 @@
 | Workflow walked | |
 | Target release tag or commit | |
 | Target configuration | |
-| ONUS specification and protocol revision applied | |
+| HAAG specification and protocol revision applied | |
 | Reviewer | |
 | Date (UTC) | |
 

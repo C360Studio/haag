@@ -1,4 +1,4 @@
-# ONUS
+# HAAG: Human-Agent Accountability and Governance
 
 An agentic governance framework. Responsibility can be delegated.
 Accountability cannot.
@@ -9,12 +9,12 @@ Accountability cannot.
 
 ## 1. Purpose and core premise
 
-ONUS is an architecture-neutral governance and assurance framework for
-systems that combine deterministic software with probabilistic model or agent
-steps. Its name states its premise: a person may delegate a task to an agent,
-but the onus for the outcome stays with the person. Its four observation
-questions are remembered by the mnemonic **NEAR**: Necessity, Evidence,
-Authority, Recovery.
+HAAG (Human-Agent Accountability and Governance) is an architecture-neutral
+governance and assurance framework for systems that combine deterministic
+software with probabilistic model or agent steps. Its name states its premise:
+a person may delegate a task to an agent, but accountability for the outcome
+stays with the person. Its four observation questions are remembered by the
+mnemonic **NEAR**: Necessity, Evidence, Authority, Recovery.
 
 Most AI governance frameworks treat governance either as organizational policy
 (committees, checklists, risk tiers) or as a synchronous control point at the
@@ -24,7 +24,7 @@ long-running work is in flight, live model prose is mistaken for verified
 evidence, and network or process failures leave paid external work in an
 uncertain state.
 
-ONUS supplies four observation questions. It creates no runtime dependency,
+HAAG supplies four observation questions. It creates no runtime dependency,
 configuration surface, conformance level, or composite maturity score.
 
 | Heading | Core question |
@@ -38,7 +38,7 @@ configuration surface, conformance level, or composite maturity score.
 
 Responsibility for a task can be delegated to an agent. Accountability for the
 outcome cannot. The law has a name for the analogous idea, the non-delegable
-duty; ONUS takes it as the governance premise of every principle below,
+duty; HAAG takes it as the governance premise of every principle below,
 without claiming it as a legal fact in any jurisdiction. The test across all
 four headings is therefore **human use**: the responsible person must be able
 to:
@@ -71,7 +71,7 @@ Each principle in section 2 has three parts.
   its own. Where an Observe paragraph names a finding under another
   principle, that principle's Property states the requirement.
 - **Example mechanisms.** Ways teams have satisfied the property. These are
-  non-normative. ONUS requires none of them, and a mechanism's presence does
+  non-normative. HAAG requires none of them, and a mechanism's presence does
   not establish the property.
 
 #### The reviewer
@@ -86,7 +86,7 @@ does not have, the property is recorded as unobserved, never as satisfied.
 
 #### Outcomes
 
-Each property yields one of three outcomes. ONUS describes a system by its
+Each property yields one of three outcomes. HAAG describes a system by its
 findings, never by a pass or fail.
 
 - **Finding.** The property does not hold. Every property is a requirement;
@@ -97,7 +97,7 @@ findings, never by a pass or fail.
   access, and the reason is recorded. Unobserved is never reported as
   satisfied.
 
-There is no notion of ONUS compliance, certification, or score. Rolling
+There is no notion of HAAG compliance, certification, or score. Rolling
 findings into a single number hides the single-boundary failure that matters.
 
 #### Coverage
@@ -323,7 +323,7 @@ the observed result, the authority decision, and sufficient context for an
 independent reviewer to audit the outcome: to confirm that the recorded output
 is the one that was acted upon. Reproduction is not required; a step with a
 model in it is not reproducible. The organization sets and states both the
-list of consequential decision classes and the retention period. ONUS
+list of consequential decision classes and the retention period. HAAG
 prescribes neither, only that both are declared.
 
 **Observe.** The declared decision classes and retention period, then an audit
@@ -470,7 +470,7 @@ the approval's bindings to the attempt's before acting (see R2).
 > What is confirmed after a failure, and what is the next safe action?
 
 Agentic workflows interact with external APIs, long-running jobs, and stateful
-stores. ONUS treats interruption, partial completion, process replacement, and
+stores. HAAG treats interruption, partial completion, process replacement, and
 ambiguous external effects as first-class governance concerns.
 
 #### R1. Policy refusal distinct from operational failure
@@ -552,7 +552,7 @@ uncertain); cost fields that distinguish "0" from "unknown".
 #### R5. Authorized operator path
 
 **Property.** Flagging an uncertain or degraded state in a database is
-incomplete Recovery under ONUS. An authorized person has a documented surface
+incomplete Recovery under HAAG. An authorized person has a documented surface
 to inspect the stuck or orphaned work, verify the external outcome, reconcile
 resource records, and choose the next safe action.
 
@@ -573,11 +573,11 @@ before delivery. One published example is GATES[^gates], which names these
 Secure, Govern, Authenticate, Trace, and Enforce, and applies them in the
 order S, G, A, T, E. The acronym itself reads G, A, T, E, S.
 
-**Gateway frameworks govern the pipe. ONUS governs the workflow and the human
+**Gateway frameworks govern the pipe. HAAG governs the workflow and the human
 decision.** The two are complementary layers.
 
 A gateway can apply every one of its controls to every model call and still
-produce ONUS findings when:
+produce HAAG findings when:
 
 - The model call should have been twenty lines of deterministic code (N1,
   N4).
@@ -599,7 +599,7 @@ produce ONUS findings when:
   applying the four questions to a design before or alongside runtime testing.
 - [H1 blind human-operator protocol](../protocol/h1-operator.md): a bounded
   empirical exercise against a pinned release.
-- [Implementations and history](../IMPLEMENTATIONS.md): where ONUS
+- [Implementations and history](../IMPLEMENTATIONS.md): where HAAG
   responsibilities are implemented and where the framework originated.
 
 ## 5. Change policy

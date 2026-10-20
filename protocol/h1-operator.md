@@ -1,7 +1,7 @@
-# ONUS Supplement H1: Blind Human-Operator Evaluation Protocol
+# HAAG Supplement H1: Blind Human-Operator Evaluation Protocol
 
 **Version:** 0.1.0-draft
-**Applies to:** [ONUS specification](../spec/onus.md) 0.1.0-draft
+**Applies to:** [HAAG specification](../spec/haag.md) 0.1.0-draft
 **License:** CC BY 4.0
 
 Automated tests prove that code paths execute as written. They do not prove
@@ -164,7 +164,7 @@ Per case:
 
 For each specification property the sealed Reference Sheet declared the case
 exercises, record one of the three outcomes defined in
-[specification section 1.2](../spec/onus.md#12-how-to-read-this-specification):
+[specification section 1.2](../spec/haag.md#12-how-to-read-this-specification):
 
 - `FINDING`: the property does not hold. Name what was observed and what the
   property requires.
