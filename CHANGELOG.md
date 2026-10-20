@@ -4,76 +4,54 @@ All notable changes to the specification and protocols are recorded here.
 Normative changes (anything that alters what counts as a finding) are marked
 **normative**.
 
-## Unreleased
+## 0.2.0 - 2026-10-20
 
-- Framework renamed to HAAG (Human-Agent Accountability and Governance);
-  specification moved to `spec/haag.md`. (Issue #5, 5)
-- The blind human-operator protocol is renamed Supplement H1 (file
-  `protocol/h1-operator.md`) so that N1 names only the specification
-  principle. (Issue #5, 5)
-- Reference Sheet sealing: the digest is recorded in a detached manifest and
-  the case scoring record, never inside the sheet. The sheet records target
-  commit, configuration, and the HAAG revision applied. (Issue #5, 3)
-- Coverage aligned: N4 added to steps 05 and 08, N1 and N3 to the rubric, A7
-  to step 04 and stage 2; H1 case table adds N1, N4, E4, A5, A7. (Issue #5,
-  13)
-- New template `protocol/templates/design-walkthrough-record.md`. (Issue #5,
-  14)
-- Six friction counts, identifier freeze named as the 0.1.0 release, legal
-  premise stated as an analogy. (Issue #5, 15)
-
-- **normative** N4 binds the comparison record to the duty configuration
-  (model, prompt, check) and requires re-comparison on material change. The
-  corpus description is generalized beyond extraction duties. (Issue #5, 10)
-- **normative** E1 is scoped to boundaries carrying external, untrusted, or
-  model-derived data; pure control edges are out of scope. N1 defines
-  "user-facing figure". (Issue #5, 11)
-- **normative** E4's test accepts an integrity halt as a pass. R2's Observe
-  adds a stale-write test; its example mechanism derives idempotency keys
-  from the logical effect, not the attempt. A3 and R1 become induced tests
-  with unobserved conditions. (Issue #5, 8, 9, 12)
-
-- **normative** Property is the only place a requirement is stated; Observe
-  tests it and introduces none. The change policy now counts any
-  finding-altering edit to Property or Observe as normative. (Issue #5, 1)
-- **normative** E2 requires every model invocation and effectful tool call to
-  be recorded by the harness, which is what N2's Observe relied on. A4's
-  Observe no longer cites A2 for a delegate's policy source. (Issue #5, 1)
-- **normative** A supported surface a responsible person demonstrably cannot
-  use is a finding even when structurally complete. Section 1.1, E2, A1, the
-  walkthrough rubric, and operator protocol section 5.4 state the rule and
-  the evidence required. (Issue #5, 2)
-- **normative** New A7, approval bound to a revision: action, target, input
-  revision, policy revision, and principal, invalidated on change. (Issue
-  #5, 7)
-- **normative** Must/Should distinction removed; every property is a
-  requirement. (Issue #5, 6)
-- Principle count corrected to twenty-two with A7 added. (Issue #5, 4)
-
-- **normative** Section 1.2 defines the reviewer's vantage (records,
-  surfaces, configuration, a disposable instance, fault injection) and adds a
-  third outcome, unobserved, alongside finding and no finding. Observations
-  quantify over the step map and record coverage.
-- **normative** N1 restated as a data-path property: every numeric or
-  invariant-bearing model value passes a code check before use. The
-  "could code have computed it" question moves to N4.
-- **normative** N4 requires the decision to rely on a duty to cite the
-  comparison result.
-- **normative** E2 and A1 restated as structural and display properties;
-  whether a person can tell or understood is measured by the N1 protocol.
-- **normative** E6 scopes retention to declared consequential decision
-  classes and replaces "reproduce" with "audit".
-- **normative** A4 requires scopes to be recorded in a comparable form.
-- **normative** R4 replaces "all known cost facts" with the facts the provider
-  reports at termination time.
-- Observe paragraphs for N2, E1, E4, E5, A2, A5, A6 and R4 now name a bounded
-  test or an unobserved condition instead of a reading.
-- Design walkthrough protocol records all three outcomes (finding, no
-  finding, unobserved) and a coverage record, matching specification
-  section 1.2.
-- N1 protocol adds a per-case property record: the Reference Sheet declares
-  which properties each case exercises before the session, and the scorer
-  records finding, no finding, or unobserved for each. Templates updated.
+- Renamed the framework to **HAAG (Human-Agent Accountability and Governance)**
+  (`spec/haag.md`) and renamed the blind human-operator exercise to
+  **Supplement H1** (`protocol/h1-operator.md`) so `N1` refers only to the
+  specification principle.
+- Dropped the `-draft` suffix and froze principle identifiers `N1` through
+  `R5`.
+- Added a practitioner quick-start guide and prior art references (papers,
+  threat taxonomies, and open-source governance toolkits) to `README.md`, and
+  expanded Section 3 of `spec/haag.md` to position HAAG alongside threat
+  taxonomies (OWASP Agentic Top 10), perimeter gateways (GATES), and in-process
+  loop middleware (Microsoft ACS).
+- Rewrote the specification and protocols in direct practitioner language,
+  restoring N1's core deterministic-authority rule and simplifying the design
+  walkthrough (`protocol/design-walkthrough.md`) and H1 scoring templates
+  (`protocol/templates/`).
+- Fixed Reference Sheet sealing in H1 so the SHA-256 digest is recorded in a
+  detached manifest and case scoring records rather than inside the hashed file
+  itself.
+- **normative** Added **A7 (Approval bound to a revision)**: human approvals
+  bind to the action, target, input revision, policy revision, and authorizing
+  principal, and are invalidated if any of the five changes before execution.
+- **normative** **A2** requires that untrusted or model-derived data cannot
+  supply the target or parameters of an effectful tool call without a
+  deterministic policy check at the enforcement point or a revision-bound
+  approval (A7).
+- **normative** **E4** extends downstream lineage to persistent agent memory
+  and knowledge stores alongside downstream model duties and user-facing
+  artifacts.
+- **normative** **Section 1.1** makes any supported surface that looks complete
+  on paper but is unusable by the responsible operator a finding against the
+  principle governing that surface (preventing "moral crumple zone" designs).
+- **normative** **Section 1.2** defines the three review outcomes (`Finding`,
+  `No finding`, `Unobserved`) and requires fault-injection or runtime checks
+  for **E1, E4, E5, A2, A3, A5, A6, A7, R1, R2, R3,** and **R4** (including
+  stale-attempt write races in R2 and logical-effect idempotency keys).
+- **normative** **N4** binds the baseline comparison record to the active model,
+  prompt, and check configuration and requires re-comparison when they change
+  materially.
+- **normative** **E1** scopes the four-axis verification labels to boundaries
+  carrying external, untrusted, or model-derived data; pure control calls are
+  out of scope.
+- **normative** **E2** requires the harness to record every model invocation
+  and effectful tool call as an observation distinct from model claims.
+- **normative** **E6** scopes retention to declared consequential decision
+  classes and requires auditability rather than deterministic reproduction of
+  model steps.
 
 ## 0.1.0-draft - 2026-10-20
 

@@ -21,9 +21,9 @@
 
 ## Human comprehension outcome
 
-One of `MATCH`, `MISMATCH`, `UNRESOLVED`, `NOT RUN` per question. A `MISMATCH`
-must quote the sealed Reference Sheet line it contradicts; without the quote,
-record `UNRESOLVED`.
+One of `MATCH`, `MISMATCH`, `UNRESOLVED`, `NOT RUN` per question. Every
+`MISMATCH` must quote the sealed Reference Sheet line it contradicts; without
+the quote, record `UNRESOLVED`.
 
 | Question | Outcome | Sealed reference line quoted (required for MISMATCH) |
 | :--- | :--- | :--- |
@@ -54,27 +54,18 @@ One of `OBSERVED AS EXPECTED`, `OBSERVED DIFFERENCE`, `UNKNOWN`, `NOT RUN`.
 
 -
 
-## Property record
+## Principle outcomes
 
-One row per specification property the sealed Reference Sheet declared for
-this case. Outcome is `FINDING`, `NO FINDING`, or `UNOBSERVED`. A `NO FINDING`
-with an empty basis is recorded as `UNOBSERVED`. Properties the case exercised
-but the Reference Sheet did not declare go in the second table.
+One row per specification principle exercised by this case (`FINDING`,
+`NO FINDING`, or `UNOBSERVED`).
 
-| Property | Outcome | Basis (what was inspected or tested, or why unobserved) |
+| Principle | Outcome | Basis (what was inspected or tested, or why unobserved) |
 | :--- | :--- | :--- |
 | | | |
 
-Undeclared properties exercised by this case:
+## Findings from this case
 
-| Property | Outcome | Basis |
-| :--- | :--- | :--- |
-| | | |
-
-## Findings supported by this case
-
-Each finding names a specification property (N1 through R5), what was
-observed, and what the property requires. Every finding here has a `FINDING`
-row above. Do not total findings.
+Each finding names a principle (N1 through R5), what was observed, and what the
+property requires. Do not total findings.
 
 -

@@ -3,8 +3,8 @@
 An agentic governance framework. Responsibility can be delegated.
 Accountability cannot.
 
-**Version:** 0.1.0-draft
-**Status:** Public specification draft
+**Version:** 0.2.0
+**Status:** Public specification
 **License:** CC BY 4.0 (see [LICENSE](../LICENSE))
 
 ## 1. Purpose and core premise
@@ -17,10 +17,10 @@ stays with the person. Its four observation questions are remembered by the
 mnemonic **NEAR**: Necessity, Evidence, Authority, Recovery.
 
 Most AI governance frameworks treat governance either as organizational policy
-(committees, checklists, risk tiers) or as a synchronous control point at the
-model perimeter. Agentic and multi-step workflows fail across broader seams:
-models are invoked where deterministic code belongs, policies change while
-long-running work is in flight, live model prose is mistaken for verified
+(committees, checklists, risk tiers) or as a synchronous control point at a
+single model or tool call. Agentic and multi-step workflows fail across broader
+seams: models are invoked where deterministic code belongs, policies change
+while long-running work is in flight, live model prose is mistaken for verified
 evidence, and network or process failures leave paid external work in an
 uncertain state.
 
@@ -37,11 +37,10 @@ configuration surface, conformance level, or composite maturity score.
 ### 1.1 The governing test: human use and non-delegable accountability
 
 Responsibility for a task can be delegated to an agent. Accountability for the
-outcome cannot. The law has a name for the analogous idea, the non-delegable
-duty; HAAG takes it as the governance premise of every principle below,
-without claiming it as a legal fact in any jurisdiction. The test across all
-four headings is therefore **human use**: the responsible person must be able
-to:
+outcome cannot. Holding a person accountable for a system they cannot inspect,
+bound, or recover turns the operator into a moral crumple zone—that is a system
+defect, not governance. The test across all four headings is therefore **human
+use**: the responsible person must be able to:
 
 1. Understand the decision and inspect its basis.
 2. Act within their authority and understand the scope and cost of what they
@@ -53,61 +52,44 @@ to:
 They must be able to do all four **without reading internal source code or
 reconstructing a workflow from raw logs**.
 
-A supported surface that a responsible person demonstrably cannot use is a
-finding against the principle that governs that surface, even where the
-surface is structurally complete. The
-[operator protocol](../protocol/h1-operator.md) defines the evidence that
-demonstrates it.
+A supported surface that looks complete on paper but that a responsible person
+cannot actually use is a finding against the principle governing that surface.
+The [operator protocol](../protocol/h1-operator.md) tests this directly with an
+unexposed human operator.
 
 ### 1.2 How to read this specification
 
-Each principle in section 2 has three parts.
+Each principle in section 2 has three parts:
 
-- **Property.** What must be true, stated so that a reviewer can observe
-  whether it holds. This is the normative content, and the only place a
-  requirement is stated.
-- **Observe.** What a reviewer looks at, or what bounded test a reviewer runs,
-  to decide whether the property holds. Observe introduces no requirement of
-  its own. Where an Observe paragraph names a finding under another
-  principle, that principle's Property states the requirement.
-- **Example mechanisms.** Ways teams have satisfied the property. These are
-  non-normative. HAAG requires none of them, and a mechanism's presence does
-  not establish the property.
+- **Property.** What must hold in the system. This is the requirement.
+- **Observe.** What a reviewer inspects, or what fault test a reviewer runs, to
+  check whether the property holds.
+- **Example mechanisms.** Practical patterns teams use to satisfy the property.
+  These are non-normative; HAAG requires none of them, and a mechanism's
+  presence does not by itself prove the property holds.
 
-#### The reviewer
+#### Reviewer setup and outcomes
 
-A reviewer applying this specification has the system's records and surfaces,
-its configuration and documentation, a disposable non-production instance of
-it, and the ability to inject faults on that instance: kill a process at a
-named point, take a dependency down, cut the network. The reviewer may read
-source code. The responsible person of section 1.1 must never need to. Where
-an observation requires an instance, a record, or a fault point the reviewer
-does not have, the property is recorded as unobserved, never as satisfied.
+A reviewer applying this specification works from the workflow's step map (see
+the [design walkthrough protocol](../protocol/design-walkthrough.md)), the
+system's records and surfaces, its configuration and documentation, and a
+disposable non-production instance where faults can be injected (killing a
+worker at a named point, taking a dependency down, cutting the network). A
+reviewer may read source code; the responsible operator in section 1.1 must
+never need to.
 
-#### Outcomes
+Each principle checked produces one of three outcomes:
 
-Each property yields one of three outcomes. HAAG describes a system by its
-findings, never by a pass or fail.
+- **Finding.** The property does not hold. Any trade-off or reason the team
+  accepted is recorded alongside the finding, not instead of it.
+- **No finding.** The property was inspected or tested and holds for the steps
+  and surfaces checked.
+- **Unobserved.** The reviewer could not test the property (for example,
+  because no disposable instance or fault injection point was available), and
+  records why. Unobserved is a gap in testability, never a pass.
 
-- **Finding.** The property does not hold. Every property is a requirement;
-  there is no weaker tier, and a team's reason for not meeting one is
-  recorded with the finding, not instead of it.
-- **No finding.** The property was observed and holds for what was inspected.
-- **Unobserved.** The property could not be observed with the reviewer's
-  access, and the reason is recorded. Unobserved is never reported as
-  satisfied.
-
-There is no notion of HAAG compliance, certification, or score. Rolling
+HAAG defines no compliance badge, certification, or composite score. Rolling
 findings into a single number hides the single-boundary failure that matters.
-
-#### Coverage
-
-Observations are made against the step map produced by the [design walkthrough
-protocol](../protocol/design-walkthrough.md). Properties that quantify over
-every boundary, every surface, or every invocation are observed by sampling
-that map. The reviewer records which steps, edges, and surfaces were inspected
-and which were not. Findings come from what was inspected. What was not
-inspected is coverage, not a pass.
 
 ## 2. The four headings
 
@@ -121,23 +103,19 @@ bounded and checked.
 
 #### N1. Deterministic authority
 
-**Property.** Every numeric or invariant-bearing value a model produces passes
-through a code check that bounds or verifies it before the value is used in a
-state transition, a settlement, or a user-facing figure. A user-facing figure
-is a structured metric, total, score, or field presented outside a region
-labelled as model claim (see E2); a number inside free-text model prose
-rendered in a claim region is a claim, not a figure, and a number extracted
-from that prose into a structured field becomes a figure and must pass the
-check. Calculations, aggregations, schema routing, state transitions, and
-formatting are performed by code. A number a model legitimately produces (a
-rubric score, a triage priority) is recorded as a model claim, not as an
-observed fact. Whether a duty should have been code at all is a question for
-N4, where it is tested rather than asserted.
+**Property.** A model is never the sole authority for a value that
+deterministic code can compute or verify. Calculations, aggregations, schema
+routing, state transitions, and formatting are performed by code. Where a model
+legitimately produces a number or invariant-bearing value (a rubric score, a
+triage priority), code bounds and validates it before it drives a state
+transition, a settlement, or a structured user-facing metric, and the system
+records it as a model claim (see E2), not an observed fact. Numbers inside
+free-text prose rendered in a claim region remain claims unless extracted into
+a structured field.
 
-**Observe.** For each numeric or invariant-bearing model output in the step
-map, follow the data path to its first use. A value that reaches a state
-transition, a settlement, or a user-facing figure without passing a code check
-is a finding.
+**Observe.** Trace each numeric or invariant-bearing model output in the step
+map to its first use. Any value that reaches a state transition, a settlement,
+or a structured metric without passing a code check is a finding.
 
 **Example mechanisms.** Range and enum validation on model outputs; code-side
 recomputation of any total the model reports; invariants enforced in the state
@@ -150,11 +128,9 @@ classification, candidate summarization, rubric scoring) with declared inputs
 and a declared output shape. A duty is skipped, not invoked, when no valid
 input exists.
 
-**Observe.** The list of model duties for the workflow, matched against the
-record of model invocations. An invocation that cannot be matched to a named
-duty, or that ran on empty or invalid input, is a finding. This observation
-requires a record of every model invocation. If no such record exists, that is
-an E2 finding, and N2 is recorded as unobserved.
+**Observe.** Match the workflow's declared model duties against the recorded
+model invocations. An invocation that cannot be matched to a named duty, or
+that ran on empty or invalid input, is a finding.
 
 **Example mechanisms.** A duty registry; an input guard that short-circuits
 before the model call; per-duty output schemas.
@@ -166,9 +142,8 @@ taken when the check fails: reject, bounded retry, or escalation to a person.
 A duty whose output flows onward without a named check, or whose failure
 action is undefined, is a finding.
 
-**Observe.** For each duty, the check and the failure action as documented
-and as implemented. A retry without a bound is a finding under both N3 and
-A5.
+**Observe.** For each duty, check the validation and failure action both in
+documentation and at runtime. An unbounded retry loop is a finding.
 
 **Example mechanisms.** Schema validation with a rejection path; a retry
 budget per duty; a human review queue for outputs that fail a confidence
@@ -176,28 +151,23 @@ threshold.
 
 #### N4. Comparative value
 
-**Property.** Before a model duty is relied upon, the team has stated what
-success means for it and compared it against a simpler baseline (deterministic
-code, a lookup, a human) on a fixed corpus of representative inputs, edge
-cases, and failure modes for the duty (for an extraction or triage duty: known
-facts, distractions, and contradictions). The comparison record names the duty
-configuration it evaluated: model, prompt or instructions, and check. The
-decision to rely on the duty cites that record. When the model, prompt, or
-check changes materially, the comparison is rerun before the changed duty is
-relied upon; reliance that cites a comparison of a different configuration is
-a finding. A syntactically valid response is not evidence that the step is
-useful.
+**Property.** Before relying on a model duty, the team states what success
+means for it and compares it against a simpler baseline (deterministic code, a
+lookup, a human) on a fixed corpus of representative inputs, edge cases, and
+failure modes (such as known facts, distractions, and contradictions). The
+comparison record names the model, prompt, and check evaluated, and is rerun
+when any of those change materially. A syntactically valid response is not
+evidence that the step is useful.
 
-**Observe.** The stated success criterion, the corpus, the comparison record
-with its named configuration, and the citation from the decision to rely on
-the duty. Compare the configuration in the record with the configuration in
-production. A mismatch, or a comparison the model lost followed by reliance
-with no stated reason, is a finding. "No model needed" is a valid outcome of
-the comparison and is recorded as such.
+**Observe.** Inspect the success criterion, the evaluation corpus, and the
+comparison record for the configuration running in production. Relying on a
+duty that has no comparison record, whose production configuration drifted
+materially from the tested one, or that lost to the simpler baseline without a
+stated reason is a finding. "No model needed" is a valid outcome.
 
-**Example mechanisms.** A golden corpus checked into the repository; a side-
-by-side run against a rule-based baseline; periodic re-comparison when the
-model or prompt version changes.
+**Example mechanisms.** A golden evaluation corpus checked into the repository;
+a side-by-side run against a rule-based baseline; re-running the comparison in
+CI when the model or prompt changes.
 
 ### 2.2 Evidence (E)
 
@@ -211,10 +181,9 @@ basis of a result through supported product surfaces.
 #### E1. Labelled verification state
 
 **Property.** At every boundary in the step map that carries external,
-untrusted, or model-derived data (artifacts, evidence, model and tool
-outputs), the data carries labels along four independent axes. Pure control
-edges that carry none of these (authentication, quota reservation, capability
-lookup) are out of scope for E1:
+untrusted, or model-derived data (artifacts, evidence, model and tool outputs),
+the data carries labels along four independent axes (pure control calls such as
+authentication or quota checks are out of scope):
 
 | Axis | Labels |
 | :--- | :--- |
@@ -227,32 +196,28 @@ The axes are independent. Partial output is never silently promoted to
 complete. A single status field that collapses the axes loses information and
 is a finding.
 
-**Observe.** For each edge in the step map, which labels are carried and
-whether the consuming component or surface reads them. Record which edges were
-inspected. A surface that shows a truncated or unscored result without the
-label is a finding. Truncate an output on the disposable instance and confirm
-the label survives to the surface.
+**Observe.** Check which labels travel across each data boundary in the step
+map and whether consuming components and surfaces read them. Truncate an output
+on the disposable instance and confirm the surface displays the truncated state
+rather than presenting it as complete.
 
 **Example mechanisms.** Per-axis fields on the artifact record; a wrapper type
-that cannot be unwrapped without reading the labels; UI badges derived from
-the labels rather than from a separate status.
+that cannot be unwrapped without reading the labels; UI badges driven directly
+by the four labels rather than a collapsed status string.
 
 #### E2. Observations distinct from claims
 
-**Property.** Every model invocation and every effectful tool call is recorded
-by the harness as an observation. Harness-recorded facts (model invocations,
-tool executions, HTTP effects, state transitions, timestamps, resource
-consumption) are stored in a field or record type structurally distinct from
-model-generated prose, inferences, and recommendations. Every surface that
-shows both renders them in separately labelled regions.
+**Property.** The harness records every model invocation and every effectful
+tool call as an observation. Harness-recorded facts (model invocations, tool
+executions, HTTP effects, state transitions, timestamps, resource consumption)
+are stored in a field or record type structurally distinct from model-generated
+prose, inferences, and recommendations. Every surface that displays both
+renders them in separately labelled regions.
 
-**Observe.** The record schema, and each result surface in the step map. A
-model invocation with no harness record, a record with no structural
-distinction, or a surface that renders model text inside a region labelled as
-observation, is a finding. Whether a person can actually tell the two apart is
-measured by the operator protocol. A MISMATCH there that the scorer attributes
-to this surface is a finding against E2 under the human-use test (section
-1.1).
+**Observe.** Inspect the record schema and each result surface in the step map.
+A model invocation with no harness record, a schema that mixes observations and
+model claims, or a surface that renders model prose inside an observation
+region is a finding.
 
 **Example mechanisms.** Separate record types for observations and claims;
 rendering model text in a visibly distinct region; refusing to interpolate
@@ -271,8 +236,8 @@ model output into observation fields.
 A surface that presents one kind of check as if it established another is a
 finding.
 
-**Observe.** The wording of check results in records and surfaces. "Verified"
-without naming what was verified is a finding.
+**Observe.** Inspect the wording of check results in records and UI surfaces.
+A generic "Verified" badge without naming what was verified is a finding.
 
 **Example mechanisms.** Check results stored as typed assertions ("schema:
 valid", "scan: no match", "signature: valid for key K") rather than a single
@@ -280,21 +245,20 @@ boolean.
 
 #### E4. Downstream lineage
 
-**Property.** Downstream model steps (evaluators, judges, summarizers) and
-final user-facing artifacts consume only checked copies, never raw unchecked
-live streams.
+**Property.** Downstream model steps (evaluators, judges, summarizers),
+persistent agent memory or knowledge stores, and final user-facing artifacts
+consume only checked copies, never raw unchecked live streams.
 
-**Observe.** The input source of each downstream duty in the step map. Then
-one test on the disposable instance, in either form: run with distinguishable
-checked and unchecked fixtures and confirm the downstream duty consumed the
-checked revision; or alter the stored checked copy and confirm that the
-downstream duty either sees the alteration or halts on an integrity or
-revision mismatch. A downstream duty that consumes the live stream, or that
-proceeds on the unaltered live content while the stored copy differs, is a
-finding.
+**Observe.** Check the input source of each downstream duty and memory write in
+the step map, then verify on the disposable instance: run with distinguishable
+checked and unchecked fixtures and confirm the downstream consumer reads the
+checked revision, or alter the stored checked copy and confirm the consumer
+either sees the change or halts on an integrity mismatch. Consuming the live
+stream directly is a finding.
 
-**Example mechanisms.** Downstream duties read from the artifact store by
-revision, not from the producing step's output channel.
+**Example mechanisms.** Downstream duties and memory writers read from the
+artifact store by checked revision rather than subscribing to the producing
+step's live output channel.
 
 #### E5. Inspectable provenance
 
@@ -304,12 +268,12 @@ uncaptured or unavailable), the policy and prompt versions active at the time,
 and its integrity signatures. The responsible person can reach all of these
 through supported product surfaces.
 
-**Observe.** Starting from a result, follow the links. A link that requires
-internal tooling or raw log access is a finding under the human-use test. The
-uncaptured-source clause cannot be checked from the record alone: a record
-that silently omits a source looks identical to one with fewer sources. It is
-observed only by inducing a known-unavailable source, which is H1 protocol
-case 3. Without that induced case, record the clause as unobserved.
+**Observe.** Starting from a result surface, follow the provenance links to
+each item. Requiring internal tooling or raw log access is a finding. Because a
+record that silently drops a failed source looks identical to a run with fewer
+sources, test the uncaptured-source requirement by inducing a known-unavailable
+source on the disposable instance (or during H1 case 3) and confirming the
+missing source is explicitly recorded.
 
 **Example mechanisms.** A provenance panel on the result surface; receipts
 that record "not captured" as a first-class value; prompt and policy versions
@@ -317,23 +281,21 @@ pinned on the record.
 
 #### E6. Retention for dispute resolution
 
-**Property.** For each decision class the responsible organization has
-declared consequential, the system retains the input revision, the request,
-the observed result, the authority decision, and sufficient context for an
-independent reviewer to audit the outcome: to confirm that the recorded output
-is the one that was acted upon. Reproduction is not required; a step with a
-model in it is not reproducible. The organization sets and states both the
-list of consequential decision classes and the retention period. HAAG
-prescribes neither, only that both are declared.
+**Property.** For each decision class the organization declares consequential,
+the system retains the input revision, the request, the observed result, the
+authority decision, and enough context for an independent reviewer to confirm
+that the recorded output is the one that was acted upon. Exact model
+reproduction is not required because model steps are non-deterministic. The
+organization declares both the list of consequential decision classes and the
+retention period.
 
-**Observe.** The declared decision classes and retention period, then an audit
-of a sampled past decision within the period. The reviewer either confirms the
-recorded output was the one acted upon or names the missing item. An
-undeclared class list leaves the property's scope undefined and is itself a
-finding.
+**Observe.** Check the declared consequential decision classes and retention
+period, then sample a past decision within that window and verify that the
+retained record shows what was acted upon. Leaving consequential decision
+classes undeclared is a finding.
 
-**Example mechanisms.** A retention policy document referenced from the
-product; immutable decision records with a declared expiry.
+**Example mechanisms.** A retention policy referenced from the product;
+immutable decision records with a declared expiry.
 
 ### 2.3 Authority (A)
 
@@ -345,59 +307,55 @@ steps.
 
 #### A1. Understandable scope of permission
 
-**Property.** The submission or approval surface displays, before the person
-commits, four things: what data leaves the system and to where, who can see
-the result, which effectful tools may run, and the resource or spending bound.
+**Property.** Before a person submits or approves work, the surface displays
+four things: what data leaves the system and to where, who can see the result,
+which effectful tools may run, and the resource or spending bound.
 Authentication is not a substitute for this display.
 
-**Observe.** The approval surface as the responsible person sees it. Any of
-the four items that must be inferred from configuration or documentation
-elsewhere is a finding. Whether the person understood what was displayed is
-measured by the operator protocol. A MISMATCH there that the scorer attributes
-to this surface is a finding against A1 under the human-use test (section
-1.1).
+**Observe.** Inspect the submission or approval surface as the responsible
+person sees it. Requiring the person to infer any of the four items from config
+files or external documentation is a finding.
 
-**Example mechanisms.** A scope summary on the approval prompt; a declared
+**Example mechanisms.** A scope summary card on the approval prompt; a declared
 spending ceiling shown before submission.
 
 #### A2. Enforcement points distinct from policy evaluators
 
 **Property.** Enforcement points (workflow guards, tool dispatchers, storage
 boundaries, provider adapters) are distinct from policy evaluators (local rule
-libraries, external governance gateways, human approval queues). Where several
-evaluators are combined, the contract states check ordering, timeout handling,
-conflict resolution, and which baseline safety controls no evaluator can
-override.
+libraries, external governance gateways, human approval queues). Untrusted or
+model-derived data cannot supply the target or parameters of an effectful tool
+call without passing a deterministic policy check at the enforcement point or a
+revision-bound approval (A7). Where multiple evaluators are combined, the
+contract states check ordering, timeout handling, conflict resolution, and
+which baseline safety controls no evaluator can override.
 
-**Observe.** The contract between enforcement points and evaluators, then one
-behavioural test on the disposable instance: take an evaluator down and
-confirm the enforcement point fails closed or enters the R1 operator-wait
-state. An enforcement point that passes traffic while its evaluator is
-unreachable was never distinct from it, and that is a finding. An evaluator
-that can disable a baseline control, or undefined behaviour when two
-evaluators disagree, is a finding.
+**Observe.** Inspect the contract between enforcement points and evaluators,
+then run two checks on the disposable instance: take an evaluator down and
+confirm the enforcement point fails closed or enters an operator-wait state
+(R1); and attempt an effectful tool call whose target is supplied by untrusted
+input outside policy. Passing traffic while the evaluator is unreachable, or
+allowing untrusted text to redirect an effectful tool call, is a finding.
 
-**Example mechanisms.** A policy decision point separate from the dispatcher;
-a documented precedence order; a hard-coded deny list that evaluators cannot
-relax.
+**Example mechanisms.** A policy decision point separate from the tool
+dispatcher; capability-tagged data values that block untrusted strings from
+populating tool targets; a hard-coded deny list that evaluators cannot relax.
 
 #### A3. Per-boundary authority and policy revision
 
 **Property.** In a multi-step or long-running workflow there is no assumed
 whole-run policy snapshot. Each boundary records its own admission decision and
-the exact policy or registry revision read at execution time. Work is refused
+the exact policy or capability revision read at execution time. Work is refused
 at pickup when a capability was disabled after the workflow was scheduled, and
 refusal emits no external traffic.
 
-**Observe.** On the disposable instance, schedule a multi-step run, then
-revoke a capability or change the policy revision between scheduling and the
-next pickup. Read the revision recorded on that step and capture outbound
-traffic. A step that ran under the older revision, a pickup that did not
-refuse, or any external traffic emitted on refusal is a finding. If the
-instance offers no way to change policy mid-run, record A3 as unobserved.
+**Observe.** On the disposable instance, schedule a multi-step run, then revoke
+a capability or change the policy revision before the next step picks up.
+Confirm the step records the new revision, refuses execution, and emits no
+outbound network traffic.
 
-**Example mechanisms.** Revision read and recorded at pickup; a capability
-registry consulted per step rather than per run.
+**Example mechanisms.** Revision read and recorded at worker pickup; a
+capability registry consulted per step rather than once at workflow submission.
 
 #### A4. Authority does not amplify through delegation
 
@@ -405,13 +363,12 @@ registry consulted per step rather than per run.
 the delegate's permitted scope is a subset of the delegator's scope at
 delegation time, and is re-evaluated at the delegate's own pickup under A3. A
 delegate cannot acquire a capability, budget, visibility, or egress path that
-its delegator lacked. Scopes are recorded in a form that permits comparison; a
-scope expressed only in prose cannot be audited for subset.
+its delegator lacked. Scopes are recorded in a structured form that can be
+compared across hops, not only in free-text instructions.
 
-**Observe.** For a delegation chain, compare the recorded scopes at each
-level. Any widening is a finding. A scope whose form does not permit
-comparison is a finding. A delegate that executed under a policy revision
-older than the one in force at its pickup is a finding under A3.
+**Observe.** Across a delegation chain, compare the recorded scopes at each
+hop. Any widening of permission, or a scope recorded only as prose that cannot
+be compared for subset, is a finding.
 
 **Example mechanisms.** Scope tokens attenuated at each hop; the delegator's
 budget reservation shared, not duplicated, by delegates.
@@ -424,46 +381,48 @@ evaluation calls, auxiliary fetches, delegates (A4), and external jobs that
 may keep running after cancellation. Permission to start a workflow is never
 implicit authorization to exceed a declared limit.
 
-**Observe.** From the step map, identify the worst permitted path: maximum
-retries, every delegate, every downstream evaluation, every external job that
-survives cancellation. Then test rather than sum: on the disposable instance,
-set a small declared limit, drive that path, and compare total spend against
-the limit. Spend above the limit is a finding. An unbounded component on the
-path is a finding under N3 or A4 before the test is run.
+**Observe.** From the step map, trace the worst permitted path (maximum
+retries, all delegates, downstream evaluations, and external jobs that survive
+cancellation). On the disposable instance, set a small budget limit, drive that
+path, and compare total spend against the limit. Exceeding the limit, or
+allowing an unbounded loop on the path, is a finding.
 
 **Example mechanisms.** Atomic reservation against a ledger before each
-effectful call; a per-run ceiling that delegates draw from.
+effectful call; a shared per-run ceiling that retries and delegates draw from.
 
 #### A6. Enforced versus advisory boundaries
 
 **Property.** Documentation states the true runtime enforcement boundary. If a
 role or agent is described as read-only or sandboxed, the runtime enforces
-that restriction. Omitting a named helper tool is not enforcement.
+that restriction. Telling a model not to use a capability in a prompt, or
+merely omitting a helper wrapper while leaving the underlying credential or
+network path open, is not enforcement.
 
-**Observe.** For each restriction the documentation describes, attempt the
-restricted action from the restricted role on the disposable instance. Success
-is a finding. Reading the enforcement mechanism is not a substitute for the
-attempt.
+**Observe.** For each restriction described in documentation, attempt the
+restricted action from that role on the disposable instance. If the attempt
+succeeds, that is a finding. Reading the code is not a substitute for running
+the attempt.
 
-**Example mechanisms.** Filesystem and network policy applied at the process
-boundary; a read-only credential rather than an instruction not to write.
+**Example mechanisms.** Filesystem and network policy applied at the OS or
+container boundary; a read-only database or API credential rather than a prompt
+instruction not to write.
 
 #### A7. Approval bound to a revision
 
-**Property.** An approval binds to the specific action, its target, the input
-revision, the policy revision in force, and the authorizing principal, all
-recorded at approval time. If any of the five changes before execution, the
+**Property.** A human approval binds to five things recorded at approval time:
+the action, its target, the input revision, the policy revision in force, and
+the authorizing principal. If any of the five changes before execution, the
 approval is invalid and execution refuses until the changed action is approved
-again. An approval is never reused for a changed action.
+again.
 
 **Observe.** On the disposable instance, approve an action, then alter its
-input or target before execution. Execution that proceeds on the prior
-approval is a finding. An approval record missing any of the five bindings is
-a finding.
+input, target, or active policy before execution runs. If execution proceeds on
+the stale approval, or if the approval record omits any of the five bindings,
+that is a finding.
 
-**Example mechanisms.** Approval keyed by a content hash of action, target,
-input revision, and policy revision; revision-guarded execution that compares
-the approval's bindings to the attempt's before acting (see R2).
+**Example mechanisms.** Approvals keyed by a content digest of action, target,
+input revision, and policy revision; compare-and-swap check at execution time
+verifying the approval's bindings still match the attempt.
 
 ### 2.4 Recovery (R)
 
@@ -481,17 +440,14 @@ policy store, timed-out scanner, network drop). Operational failure of a
 required safety check fails closed or enters a bounded retry or operator-wait
 state. It never passes as "clean".
 
-**Observe.** On the disposable instance, take a required safety check down
-(the same fault as the A2 test) and run a step that depends on it. Read the
-recorded outcome. "Clean", "passed", or any outcome indistinguishable from a
-policy denial is a finding; the expected outcomes are fail closed, bounded
-retry, or operator-wait, each recorded as an operational failure. If the
-instance offers no way to take the check down, record R1 as unobserved. This
-principle is shared with Authority: a refusal is an authority decision, a
-failure is not.
+**Observe.** On the disposable instance, take a required safety check or policy
+store down and run a step that depends on it. Inspect the recorded outcome.
+Recording the result as "clean", "passed", or as a policy denial is a finding;
+it must be recorded as an operational failure that failed closed, queued a
+bounded retry, or entered operator-wait.
 
-**Example mechanisms.** Distinct outcome types for denied and errored; a
-scanner timeout that yields "unscanned" rather than "no match".
+**Example mechanisms.** Distinct outcome types for policy denial versus check
+error; a scanner timeout that yields "unscanned" rather than "no match".
 
 #### R2. No duplicate or stale effects
 
@@ -499,16 +455,16 @@ scanner timeout that yields "unscanned" rather than "no match".
 logical effect or overwrite newer state. Consequential state transitions,
 settlements, and artifact writes are guarded.
 
-**Observe.** Two tests on the disposable instance. First, replay a completed
-step and confirm no second effect. Second, start two attempts of one step, let
-the later attempt commit, then let the earlier (now stale) attempt finish and
-attempt its write. A second effect from the replay, or the stale attempt's
-write landing over the newer state, is a finding.
+**Observe.** Run two tests on the disposable instance. First, replay a
+completed step and confirm no second effect occurs. Second, start two attempts
+of the same step, let the later attempt commit, and then let the earlier (now
+stale) attempt finish and try to write. A duplicate effect or a stale write
+overwriting newer state is a finding.
 
-**Example mechanisms.** Compare-and-swap; revision guards; idempotency keys
-derived from the identity of the logical effect or step, never from the
-execution attempt, since each retry mints a new attempt and an attempt-derived
-key would not deduplicate across retries.
+**Example mechanisms.** Compare-and-swap writes; revision guards; idempotency
+keys derived from the logical effect or workflow step—never from the attempt
+ID, since each retry mints a new attempt and an attempt-keyed request will not
+deduplicate across retries.
 
 #### R3. Durable resumption across process replacement
 
@@ -517,12 +473,14 @@ external job identity or a pending approval, the replacement process resumes
 tracking the existing work. It does not issue a duplicate creation and it does
 not lose the approval context.
 
-**Observe.** Kill the process after the identity is recorded and before
-completion. A second external job, or an approval that must be re-requested
-from scratch, is a finding.
+**Observe.** Kill the worker process after the external job identity or pending
+approval is recorded and before completion. If the replacement process spawns a
+second external job or forces the operator to re-approve from scratch, that is
+a finding.
 
-**Example mechanisms.** Job identity persisted before the first poll; approval
-state keyed by attempt identity rather than by process.
+**Example mechanisms.** Persisting the external job ID before the first status
+poll; keying approval state by workflow step identity rather than worker
+process memory.
 
 #### R4. Preserved uncertainty (no invented zeros)
 
@@ -535,19 +493,18 @@ know.
   "zero cost".
 - If a workflow is cancelled while external work is active, the system
   records **local termination** and **confirmed external terminal state**
-  separately, and records the resource and cost facts the external provider
-  reports at termination time.
+  separately, and retains the resource and cost facts reported by the external
+  provider at termination time.
 
-**Observe.** The recorded state after two induced scenarios on the disposable
-instance: a crash between the send and the identifier write, and a cancel
-while external work is active. A zero or "no effect" where the system could
-not have known the value is a finding. Compare the recorded cost facts against
-the provider's own record for the same job; a provider fact missing from the
-record is a finding. Both scenarios require a fault injection point. Without
-one, record R4 as unobserved.
+**Observe.** Induce two faults on the disposable instance: kill the worker
+between sending an external request and saving the returned ID, and cancel a
+run while an external job is still executing. Recording "zero cost" or "no
+effect" when the outcome was unknown, or dropping cost facts the provider
+reported, is a finding.
 
-**Example mechanisms.** A tri-state effect record (confirmed, confirmed-none,
-uncertain); cost fields that distinguish "0" from "unknown".
+**Example mechanisms.** A tri-state effect record (`confirmed`,
+`confirmed-none`, `uncertain`); nullable or tagged cost fields that distinguish
+`0` from `unknown`.
 
 #### R5. Authorized operator path
 
@@ -556,47 +513,54 @@ incomplete Recovery under HAAG. An authorized person has a documented surface
 to inspect the stuck or orphaned work, verify the external outcome, reconcile
 resource records, and choose the next safe action.
 
-**Observe.** From the uncertain record, follow the documented path to
-resolution. If the path requires internal tooling or source access, that is a
-finding under the human-use test.
+**Observe.** Starting from an uncertain or orphaned record, follow the
+documented operator path to resolution. Requiring raw database edits, internal
+engineering tools, or source code access is a finding under the human-use test.
 
 **Example mechanisms.** An operator queue of uncertain effects with a
-reconcile action; a documented runbook reachable from the record.
+reconcile action; a documented runbook linked directly from the degraded
+record.
 
-## 3. Positioning relative to perimeter gateway frameworks
+## 3. Positioning relative to other governance layers
 
-A perimeter gateway framework prescribes controls at the point where prompts
-leave an organization and responses return. The usual set is: redact sensitive
-data before the prompt leaves, validate templates and routing, authenticate
-and authorize the caller, log the exchange immutably, and filter the response
-before delivery. One published example is GATES[^gates], which names these
-Secure, Govern, Authenticate, Trace, and Enforce, and applies them in the
-order S, G, A, T, E. The acronym itself reads G, A, T, E, S.
+Practitioners governing agentic systems encounter four distinct layers. They
+solve different problems and are complementary:
 
-**Gateway frameworks govern the pipe. HAAG governs the workflow and the human
-decision.** The two are complementary layers.
+| Layer | Examples | What it governs |
+| :--- | :--- | :--- |
+| **Threat taxonomies** | OWASP Top 10 for Agentic Applications | Names failure modes (goal hijack, tool misuse, memory poisoning, runaway loops) so teams know what to threat-model. |
+| **Perimeter gateways** | GATES[^gates] | Governs the prompt pipe as traffic leaves and returns: redaction, template routing, caller auth, exchange logging, and output filtering. |
+| **Agent-loop middleware** | Microsoft Agent Control Specification (ACS) | Hooks single model and tool calls inside the runtime loop (`pre_model_call`, `pre_tool_call`, `post_tool_call`). |
+| **Workflow & human accountability** | **HAAG** | Governs the multi-step workflow, durable state across failures, and whether the accountable person can inspect, bound, and recover the system. |
 
-A gateway can apply every one of its controls to every model call and still
-produce HAAG findings when:
+**Gateways govern the pipe. Loop middleware hooks the call. HAAG governs the
+workflow and the human decision.**
+
+A system can address a threat checklist, pass every prompt through a perimeter
+gateway, and wrap every tool call in middleware—and still produce HAAG findings
+when:
 
 - The model call should have been twenty lines of deterministic code (N1,
   N4).
 - The result surface blends live unverified model tokens with verified
   citations so the reader cannot tell what was checked (E1, E2).
 - A policy or capability is revoked while an asynchronous workflow is queued,
-  or downstream calls exceed the initial budget reservation (A3, A5).
+  an approval is reused after its target changed, or downstream calls exceed
+  the initial budget reservation (A3, A5, A7).
 - A worker crashes after starting a paid external job, or a user cancels
-  mid-flight, leaving orphaned work with no operator path (R3, R4, R5).
+  mid-flight, leaving orphaned work with invented zeros and no operator
+  recovery path (R3, R4, R5).
 
 [^gates]: GATES™ AI Governance Framework — coined by Druhin Dhavala,
     October 10, 2026. <https://www.druhindhavala.com/ai-governance/gates-framework/>.
-    Licensed under CC BY 4.0. The summary above is a paraphrase, not a
-    quotation.
+    Licensed under CC BY 4.0. GATES names five perimeter controls—Secure,
+    Govern, Authenticate, Trace, and Enforce—applied in the order S, G, A, T,
+    E. The summary above is a paraphrase, not a quotation.
 
 ## 4. Related documents
 
 - [Design and workflow walkthrough protocol](../protocol/design-walkthrough.md):
-  applying the four questions to a design before or alongside runtime testing.
+  applying the four questions to a workflow design and runtime step map.
 - [H1 blind human-operator protocol](../protocol/h1-operator.md): a bounded
   empirical exercise against a pinned release.
 - [Implementations and history](../IMPLEMENTATIONS.md): where HAAG
@@ -606,8 +570,7 @@ produce HAAG findings when:
 
 Any change to a Property or Observe paragraph that alters what counts as a
 finding is a normative change and is recorded in
-[CHANGELOG.md](../CHANGELOG.md) under the specification. Adding or revising
-example mechanisms or other prose is not a normative change. Principle
-identifiers (N1 through R5) freeze at the 0.1.0 release, when the draft
-suffix drops, and are stable from then on. A withdrawn principle keeps its
-identifier and is marked withdrawn.
+[CHANGELOG.md](../CHANGELOG.md). Adding or revising example mechanisms or
+explanatory prose is not a normative change. Principle identifiers (N1 through
+R5) are frozen as of the 0.2.0 release and remain stable from then on. A
+withdrawn principle keeps its identifier and is marked withdrawn.
