@@ -179,8 +179,15 @@ Rules:
 - A `NO FINDING` with nothing named in the basis column is recorded as
   `UNOBSERVED`.
 - A human comprehension `MISMATCH` is not by itself a property `FINDING`. It
-  points at a property to inspect. The property outcome is decided from the
-  system's records and surfaces, not from the operator's answer.
+  points at a property to inspect, and the property outcome is decided from
+  the system's records and surfaces, with one exception. Where the scorer
+  attributes the `MISMATCH` to a supported surface that is structurally
+  complete but ambiguous, misleading, or illegible, record a `FINDING`
+  against the principle that governs that surface (A1, E1, E2, E3, or R5)
+  under the human-use test of specification section 1.1. The row's basis
+  must carry three things: the sealed expected understanding, the operator's
+  verbatim unassisted answer, and the surface. Without all three the row is
+  `UNRESOLVED`, not a `FINDING`.
 - `UNOBSERVED` is never reported as satisfied and is never dropped from the
   run record.
 

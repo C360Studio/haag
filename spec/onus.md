@@ -51,14 +51,23 @@ every principle below. The test across all four headings is therefore
 They must be able to do all four **without reading internal source code or
 reconstructing a workflow from raw logs**.
 
+A supported surface that a responsible person demonstrably cannot use is a
+finding against the principle that governs that surface, even where the
+surface is structurally complete. The
+[operator protocol](../protocol/n1-operator.md) defines the evidence that
+demonstrates it.
+
 ### 1.2 How to read this specification
 
 Each principle in section 2 has three parts.
 
 - **Property.** What must be true, stated so that a reviewer can observe
-  whether it holds. This is the normative content.
+  whether it holds. This is the normative content, and the only place a
+  requirement is stated.
 - **Observe.** What a reviewer looks at, or what bounded test a reviewer runs,
-  to decide whether the property holds.
+  to decide whether the property holds. Observe introduces no requirement of
+  its own. Where an Observe paragraph names a finding under another
+  principle, that principle's Property states the requirement.
 - **Example mechanisms.** Ways teams have satisfied the property. These are
   non-normative. ONUS requires none of them, and a mechanism's presence does
   not establish the property.
@@ -78,9 +87,9 @@ does not have, the property is recorded as unobserved, never as satisfied.
 Each property yields one of three outcomes. ONUS describes a system by its
 findings, never by a pass or fail.
 
-- **Finding.** The property does not hold. **Must** marks a property whose
-  absence is a finding. **Should** marks a property whose absence is a
-  finding recorded together with the trade-off the team accepted.
+- **Finding.** The property does not hold. Every property is a requirement;
+  there is no weaker tier, and a team's reason for not meeting one is
+  recorded with the finding, not instead of it.
 - **No finding.** The property was observed and holds for what was inspected.
 - **Unobserved.** The property could not be observed with the reviewer's
   access, and the reason is recorded. Unobserved is never reported as
@@ -214,16 +223,20 @@ the labels rather than from a separate status.
 
 #### E2. Observations distinct from claims
 
-**Property.** Harness-recorded facts (tool executions, HTTP effects, state
-transitions, timestamps, resource consumption) are stored in a field or record
-type structurally distinct from model-generated prose, inferences, and
-recommendations. Every surface that shows both renders them in separately
-labelled regions.
+**Property.** Every model invocation and every effectful tool call is recorded
+by the harness as an observation. Harness-recorded facts (model invocations,
+tool executions, HTTP effects, state transitions, timestamps, resource
+consumption) are stored in a field or record type structurally distinct from
+model-generated prose, inferences, and recommendations. Every surface that
+shows both renders them in separately labelled regions.
 
 **Observe.** The record schema, and each result surface in the step map. A
-record with no structural distinction, or a surface that renders model text
-inside a region labelled as observation, is a finding. Whether a person can
-actually tell the two apart is measured by the N1 protocol, not here.
+model invocation with no harness record, a record with no structural
+distinction, or a surface that renders model text inside a region labelled as
+observation, is a finding. Whether a person can actually tell the two apart is
+measured by the operator protocol. A MISMATCH there that the scorer attributes
+to this surface is a finding against E2 under the human-use test (section
+1.1).
 
 **Example mechanisms.** Separate record types for observations and claims;
 rendering model text in a visibly distinct region; refusing to interpolate
@@ -320,7 +333,9 @@ Authentication is not a substitute for this display.
 **Observe.** The approval surface as the responsible person sees it. Any of
 the four items that must be inferred from configuration or documentation
 elsewhere is a finding. Whether the person understood what was displayed is
-measured by the N1 protocol.
+measured by the operator protocol. A MISMATCH there that the scorer attributes
+to this surface is a finding against A1 under the human-use test (section
+1.1).
 
 **Example mechanisms.** A scope summary on the approval prompt; a declared
 spending ceiling shown before submission.
@@ -372,8 +387,8 @@ scope expressed only in prose cannot be audited for subset.
 
 **Observe.** For a delegation chain, compare the recorded scopes at each
 level. Any widening is a finding. A scope whose form does not permit
-comparison is a finding. A delegate that reads policy from a different source
-than its delegator is a finding under A2.
+comparison is a finding. A delegate that executed under a policy revision
+older than the one in force at its pickup is a finding under A3.
 
 **Example mechanisms.** Scope tokens attenuated at each hop; the delegator's
 budget reservation shared, not duplicated, by delegates.
@@ -409,6 +424,23 @@ attempt.
 
 **Example mechanisms.** Filesystem and network policy applied at the process
 boundary; a read-only credential rather than an instruction not to write.
+
+#### A7. Approval bound to a revision
+
+**Property.** An approval binds to the specific action, its target, the input
+revision, the policy revision in force, and the authorizing principal, all
+recorded at approval time. If any of the five changes before execution, the
+approval is invalid and execution refuses until the changed action is approved
+again. An approval is never reused for a changed action.
+
+**Observe.** On the disposable instance, approve an action, then alter its
+input or target before execution. Execution that proceeds on the prior
+approval is a finding. An approval record missing any of the five bindings is
+a finding.
+
+**Example mechanisms.** Approval keyed by a content hash of action, target,
+input revision, and policy revision; revision-guarded execution that compares
+the approval's bindings to the attempt's before acting (see R2).
 
 ### 2.4 Recovery (R)
 
@@ -539,8 +571,9 @@ produce ONUS findings when:
 
 ## 5. Change policy
 
-A change to a property's wording that alters what counts as a finding is a
-normative change and is recorded in [CHANGELOG.md](../CHANGELOG.md) under the
-specification. Adding or revising example mechanisms, observations, or prose is
-not a normative change. Principle identifiers (N1 through R5) are stable once
-published. A withdrawn principle keeps its identifier and is marked withdrawn.
+Any change to a Property or Observe paragraph that alters what counts as a
+finding is a normative change and is recorded in
+[CHANGELOG.md](../CHANGELOG.md) under the specification. Adding or revising
+example mechanisms or other prose is not a normative change. Principle
+identifiers (N1 through R5) are stable once published. A withdrawn principle
+keeps its identifier and is marked withdrawn.

@@ -53,7 +53,7 @@ responsible person can and cannot do using only supported surfaces. Each
 | Stage | What the responsible person must be able to do | Principles |
 | :--- | :--- | :--- |
 | 1. Before submission | Explain why a model is involved, which external services may run, who can see the result, and the resource or spending limit. | N2, N4, A1, A5 |
-| 2. At a scope or policy change | Identify who can authorize the change, which policy revision applies, and the exact effect of approval or rejection. | A2, A3, A4, E5 |
+| 2. At a scope or policy change | Identify who can authorize the change, which policy revision applies, the exact effect of approval or rejection, and whether an earlier approval still holds. | A2, A3, A4, A7, E5 |
 | 3. At a result | Separate an external source claim, a model judgment or summary, a checked or cleaned copy, and a cryptographic integrity signature. | E1, E2, E3 |
 | 4. With missing evidence | Identify the missing item (uncaptured source, unscored output, unavailable log) and its effect on relying on the answer. | E1, E5, R1 |
 | 5. After failure or replacement | Identify completed effects, uncertain or orphaned effects, retained cost facts, and the next authorized recovery action. | R2, R3, R4, R5 |
@@ -62,6 +62,11 @@ Stages 4 and 5 are the design-time form of
 [N1 protocol](n1-operator.md) cases 3 and 4. A design that fails stage 4 or 5
 here will produce a MISMATCH or UNRESOLVED there. Run the walkthrough first;
 it is cheaper.
+
+A "cannot" at any stage is a finding even where the surface is structurally
+complete. This is the same rule the operator protocol applies to a MISMATCH
+attributed to a surface: a supported surface the responsible person cannot use
+is a finding under the human-use test of specification section 1.1.
 
 ## 3. Recording the result
 
@@ -78,7 +83,7 @@ Record each finding as:
 - the principle identifier,
 - what the reviewer observed,
 - what the property requires,
-- and, for a "should", the trade-off the team accepted.
+- and any reason the team gives for not meeting it.
 
 ### 3.2 No finding
 
