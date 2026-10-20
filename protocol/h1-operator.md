@@ -224,5 +224,6 @@ and property by property; they may not be averaged.
 
 H1 originated as the Golden Supplement N1 blind-operator exercise in the
 SemStreams project, and was renamed H1 in this repository so that N1 names
-only the specification principle. See [IMPLEMENTATIONS.md](../IMPLEMENTATIONS.md) for the
-lineage and current implementing projects.
+only the specification principle. See
+[IMPLEMENTATIONS.md](../IMPLEMENTATIONS.md) for the lineage and current
+implementing projects.
