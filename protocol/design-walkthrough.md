@@ -32,11 +32,11 @@ them.
 | 01. Caller submission | Edge, UI, or API | A | A1 | Verify identity, session, and scope. Disclose external effects and limits. |
 | 02. Input admission | Scanner or policy guard | A, R | A2, R1 | Validate input before paid or effectful work. Distinguish refusal from guard failure. |
 | 03. Resource reservation | Ledger or quota store | A, E | A5 | Reserve the estimated budget for the whole run, delegates included. Refuse the run if insufficient. |
-| 04. Capability pickup | Worker or tool adapter | A, E | A3, A4, A6 | Re-read the current policy revision at pickup. Emit no external traffic on refusal. |
-| 05. External or model call | Model or tool provider | N, A, R | N2, N3, A5, R3, R4 | Bound retries. Persist the job identity before polling. Record uncertain creates. |
+| 04. Capability pickup | Worker or tool adapter | A, E | A3, A4, A6, A7 | Re-read the current policy revision at pickup. Emit no external traffic on refusal. |
+| 05. External or model call | Model or tool provider | N, A, R | N2, N3, N4, A5, R3, R4 | Bound retries. Persist the job identity before polling. Record uncertain creates. |
 | 06. Output verification | Scanner or validator | E, A | N3, E1, E3 | Inspect output and error text before storage or downstream use. Label the copy's state. |
 | 07. Durable settlement | State store | E, R | E5, E6, R2 | Commit result, provenance, and cost in one revision-guarded transaction. |
-| 08. Secondary model duty | Evaluator or summarizer | N, E | N1, N2, E2, E4 | Operate only on saved checked copies. Keep model prose separate from code-computed metrics. |
+| 08. Secondary model duty | Evaluator or summarizer | N, E | N1, N2, N4, E2, E4 | Operate only on saved checked copies. Keep model prose separate from code-computed metrics. |
 | 09. Closure and delivery | Coordinator | E, R | E1, R4, R5 | Wait for active work to settle. Separate user-facing readiness from background archive completion. |
 
 Failure and cancellation branches get their own rows. At minimum, map: a
@@ -52,14 +52,14 @@ responsible person can and cannot do using only supported surfaces. Each
 
 | Stage | What the responsible person must be able to do | Principles |
 | :--- | :--- | :--- |
-| 1. Before submission | Explain why a model is involved, which external services may run, who can see the result, and the resource or spending limit. | N2, N4, A1, A5 |
+| 1. Before submission | Explain why a model is involved, how its output is checked, which external services may run, who can see the result, and the resource or spending limit. | N2, N3, N4, A1, A5 |
 | 2. At a scope or policy change | Identify who can authorize the change, which policy revision applies, the exact effect of approval or rejection, and whether an earlier approval still holds. | A2, A3, A4, A7, E5 |
-| 3. At a result | Separate an external source claim, a model judgment or summary, a checked or cleaned copy, and a cryptographic integrity signature. | E1, E2, E3 |
+| 3. At a result | Separate an external source claim, a model judgment or summary, a checked or cleaned copy, a cryptographic integrity signature, and a code-checked figure. | N1, E1, E2, E3 |
 | 4. With missing evidence | Identify the missing item (uncaptured source, unscored output, unavailable log) and its effect on relying on the answer. | E1, E5, R1 |
 | 5. After failure or replacement | Identify completed effects, uncertain or orphaned effects, retained cost facts, and the next authorized recovery action. | R2, R3, R4, R5 |
 
 Stages 4 and 5 are the design-time form of
-[N1 protocol](n1-operator.md) cases 3 and 4. A design that fails stage 4 or 5
+[H1 protocol](h1-operator.md) cases 3 and 4. A design that fails stage 4 or 5
 here will produce a MISMATCH or UNRESOLVED there. Run the walkthrough first;
 it is cheaper.
 
@@ -73,7 +73,8 @@ is a finding under the human-use test of specification section 1.1.
 The reviewer applying this protocol has the vantage defined in specification
 section 1.2: records, surfaces, configuration, a disposable non-production
 instance, and fault injection on it. Each principle observed yields one of
-three outcomes, and all three are recorded.
+three outcomes, and all three are recorded. Use the
+[design walkthrough record template](templates/design-walkthrough-record.md).
 
 ### 3.1 Findings
 
