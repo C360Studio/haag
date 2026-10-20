@@ -57,19 +57,46 @@ Each principle in section 2 has three parts.
 
 - **Property.** What must be true, stated so that a reviewer can observe
   whether it holds. This is the normative content.
-- **Observe.** What a reviewer looks at to decide whether the property holds.
+- **Observe.** What a reviewer looks at, or what bounded test a reviewer runs,
+  to decide whether the property holds.
 - **Example mechanisms.** Ways teams have satisfied the property. These are
   non-normative. ONUS requires none of them, and a mechanism's presence does
   not establish the property.
 
-ONUS describes a system by its findings, never by a pass or fail.
+#### The reviewer
 
-- **Must** marks a property whose absence is a recorded finding.
-- **Should** marks a property whose absence is recorded together with the
-  trade-off the team accepted.
-- There is no notion of ONUS compliance, certification, or score. Rolling
-  findings into a single number hides the single-boundary failure that
-  matters.
+A reviewer applying this specification has the system's records and surfaces,
+its configuration and documentation, a disposable non-production instance of
+it, and the ability to inject faults on that instance: kill a process at a
+named point, take a dependency down, cut the network. The reviewer may read
+source code. The responsible person of section 1.1 must never need to. Where
+an observation requires an instance, a record, or a fault point the reviewer
+does not have, the property is recorded as unobserved, never as satisfied.
+
+#### Outcomes
+
+Each property yields one of three outcomes. ONUS describes a system by its
+findings, never by a pass or fail.
+
+- **Finding.** The property does not hold. **Must** marks a property whose
+  absence is a finding. **Should** marks a property whose absence is a
+  finding recorded together with the trade-off the team accepted.
+- **No finding.** The property was observed and holds for what was inspected.
+- **Unobserved.** The property could not be observed with the reviewer's
+  access, and the reason is recorded. Unobserved is never reported as
+  satisfied.
+
+There is no notion of ONUS compliance, certification, or score. Rolling
+findings into a single number hides the single-boundary failure that matters.
+
+#### Coverage
+
+Observations are made against the step map produced by the [design walkthrough
+protocol](../protocol/design-walkthrough.md). Properties that quantify over
+every boundary, every surface, or every invocation are observed by sampling
+that map. The reviewer records which steps, edges, and surfaces were inspected
+and which were not. Findings come from what was inspected. What was not
+inspected is coverage, not a pass.
 
 ## 2. The four headings
 
@@ -83,21 +110,23 @@ bounded and checked.
 
 #### N1. Deterministic authority
 
-**Property.** A model is never the sole authority for a value that
-deterministic code can compute or verify. Calculations, aggregations, schema
-routing, state transitions, and formatting are performed by code. Where a model
-legitimately produces a number (a rubric score, a triage priority), code
-bounds and validates it, and the system records it as a model claim (see E2),
-not as an observed fact.
+**Property.** Every numeric or invariant-bearing value a model produces passes
+through a code check that bounds or verifies it before the value is used in a
+state transition, a settlement, or a user-facing figure. Calculations,
+aggregations, schema routing, state transitions, and formatting are performed
+by code. A number a model legitimately produces (a rubric score, a triage
+priority) is recorded as a model claim (see E2), not as an observed fact.
+Whether a duty should have been code at all is a question for N4, where it is
+tested rather than asserted.
 
-**Observe.** For each numeric or invariant-bearing output in the workflow,
-identify the component that computes or verifies it. A model output that
-flows into a state transition or a user-facing figure without a code check is
-a finding.
+**Observe.** For each numeric or invariant-bearing model output in the step
+map, follow the data path to its first use. A value that reaches a state
+transition, a settlement, or a user-facing figure without passing a code check
+is a finding.
 
 **Example mechanisms.** Range and enum validation on model outputs; code-side
-recomputation of any total the model reports; invariants enforced in the
-state store rather than in the prompt.
+recomputation of any total the model reports; invariants enforced in the state
+store rather than in the prompt.
 
 #### N2. Named, bounded duty
 
@@ -106,9 +135,11 @@ classification, candidate summarization, rubric scoring) with declared inputs
 and a declared output shape. A duty is skipped, not invoked, when no valid
 input exists.
 
-**Observe.** The list of model duties for the workflow. An invocation that
-cannot be matched to a named duty, or that runs on empty or invalid input, is
-a finding.
+**Observe.** The list of model duties for the workflow, matched against the
+record of model invocations. An invocation that cannot be matched to a named
+duty, or that ran on empty or invalid input, is a finding. This observation
+requires a record of every model invocation. If no such record exists, that is
+an E2 finding, and N2 is recorded as unobserved.
 
 **Example mechanisms.** A duty registry; an input guard that short-circuits
 before the model call; per-duty output schemas.
@@ -133,15 +164,18 @@ threshold.
 **Property.** Before a model duty is relied upon, the team has stated what
 success means for it and compared it against a simpler baseline (deterministic
 code, a lookup, a human) on a fixed corpus containing known facts,
-distractions, and contradictions. A syntactically valid response is not
-evidence that the step is useful.
+distractions, and contradictions. The decision to rely on the duty cites the
+result of that comparison. A syntactically valid response is not evidence that
+the step is useful.
 
-**Observe.** The stated success criterion and the comparison record. "No model
+**Observe.** The stated success criterion, the corpus, the comparison record,
+and the citation from the decision to rely on the duty. A comparison the model
+lost, followed by reliance with no stated reason, is a finding. "No model
 needed" is a valid outcome of the comparison and is recorded as such.
 
-**Example mechanisms.** A golden corpus checked into the repository; a
-side-by-side run against a rule-based baseline; periodic re-comparison when
-the model or prompt version changes.
+**Example mechanisms.** A golden corpus checked into the repository; a side-
+by-side run against a rule-based baseline; periodic re-comparison when the
+model or prompt version changes.
 
 ### 2.2 Evidence (E)
 
@@ -154,8 +188,8 @@ basis of a result through supported product surfaces.
 
 #### E1. Labelled verification state
 
-**Property.** Data carries labels at every boundary along four independent
-axes:
+**Property.** Data carries labels at every boundary in the step map along four
+independent axes:
 
 | Axis | Labels |
 | :--- | :--- |
@@ -168,9 +202,11 @@ The axes are independent. Partial output is never silently promoted to
 complete. A single status field that collapses the axes loses information and
 is a finding.
 
-**Observe.** At each boundary, which labels are carried and whether a consumer
-can read them. A surface that shows a truncated or unscored result without
-the label is a finding.
+**Observe.** For each edge in the step map, which labels are carried and
+whether the consuming component or surface reads them. Record which edges were
+inspected. A surface that shows a truncated or unscored result without the
+label is a finding. Truncate an output on the disposable instance and confirm
+the label survives to the surface.
 
 **Example mechanisms.** Per-axis fields on the artifact record; a wrapper type
 that cannot be unwrapped without reading the labels; UI badges derived from
@@ -179,13 +215,15 @@ the labels rather than from a separate status.
 #### E2. Observations distinct from claims
 
 **Property.** Harness-recorded facts (tool executions, HTTP effects, state
-transitions, timestamps, resource consumption) are structurally distinct from
-model-generated prose, inferences, and recommendations, and remain distinct in
-every surface a person sees.
+transitions, timestamps, resource consumption) are stored in a field or record
+type structurally distinct from model-generated prose, inferences, and
+recommendations. Every surface that shows both renders them in separately
+labelled regions.
 
-**Observe.** A result surface or decision record. If a reader cannot tell
-which statements the harness observed and which the model produced, that is a
-finding.
+**Observe.** The record schema, and each result surface in the step map. A
+record with no structural distinction, or a surface that renders model text
+inside a region labelled as observation, is a finding. Whether a person can
+actually tell the two apart is measured by the N1 protocol, not here.
 
 **Example mechanisms.** Separate record types for observations and claims;
 rendering model text in a visibly distinct region; refusing to interpolate
@@ -217,8 +255,10 @@ boolean.
 final user-facing artifacts consume only checked copies, never raw unchecked
 live streams.
 
-**Observe.** The input source of each downstream duty. A judge that reads the
-live stream rather than the stored checked copy is a finding.
+**Observe.** The input source of each downstream duty in the step map. Then
+one test on the disposable instance: alter the stored checked copy and confirm
+the downstream duty sees the alteration. A judge that reads the live stream
+rather than the stored copy is a finding.
 
 **Example mechanisms.** Downstream duties read from the artifact store by
 revision, not from the producing step's output channel.
@@ -232,22 +272,32 @@ and its integrity signatures. The responsible person can reach all of these
 through supported product surfaces.
 
 **Observe.** Starting from a result, follow the links. A link that requires
-internal tooling or raw log access is a finding under the human-use test.
+internal tooling or raw log access is a finding under the human-use test. The
+uncaptured-source clause cannot be checked from the record alone: a record
+that silently omits a source looks identical to one with fewer sources. It is
+observed only by inducing a known-unavailable source, which is N1 protocol
+case 3. Without that induced case, record the clause as unobserved.
 
 **Example mechanisms.** A provenance panel on the result surface; receipts
-that record "not captured" as a first-class value; prompt and policy
-versions pinned on the record.
+that record "not captured" as a first-class value; prompt and policy versions
+pinned on the record.
 
 #### E6. Retention for dispute resolution
 
-**Property.** For a consequential decision the system retains the input
-revision, the request, the observed result, the authority decision, and
-sufficient context for an independent reviewer to audit or reproduce the
-outcome. The responsible organization sets the retention period and states it.
-ONUS does not prescribe a duration, only that one is declared.
+**Property.** For each decision class the responsible organization has
+declared consequential, the system retains the input revision, the request,
+the observed result, the authority decision, and sufficient context for an
+independent reviewer to audit the outcome: to confirm that the recorded output
+is the one that was acted upon. Reproduction is not required; a step with a
+model in it is not reproducible. The organization sets and states both the
+list of consequential decision classes and the retention period. ONUS
+prescribes neither, only that both are declared.
 
-**Observe.** The stated retention period and whether a sampled past decision
-can still be reconstructed within it.
+**Observe.** The declared decision classes and retention period, then an audit
+of a sampled past decision within the period. The reviewer either confirms the
+recorded output was the one acted upon or names the missing item. An
+undeclared class list leaves the property's scope undefined and is itself a
+finding.
 
 **Example mechanisms.** A retention policy document referenced from the
 product; immutable decision records with a declared expiry.
@@ -262,14 +312,15 @@ steps.
 
 #### A1. Understandable scope of permission
 
-**Property.** Authentication alone does not prove that a caller understood the
-consequences of an action. The submission or approval surface makes the
-permitted scope clear: external data egress, who can see the result, which
-effectful tools may run, and the resource or spending bound.
+**Property.** The submission or approval surface displays, before the person
+commits, four things: what data leaves the system and to where, who can see
+the result, which effectful tools may run, and the resource or spending bound.
+Authentication is not a substitute for this display.
 
-**Observe.** The approval surface as the responsible person sees it. If the
-scope must be inferred from configuration or documentation elsewhere, that is
-a finding.
+**Observe.** The approval surface as the responsible person sees it. Any of
+the four items that must be inferred from configuration or documentation
+elsewhere is a finding. Whether the person understood what was displayed is
+measured by the N1 protocol.
 
 **Example mechanisms.** A scope summary on the approval prompt; a declared
 spending ceiling shown before submission.
@@ -283,9 +334,13 @@ evaluators are combined, the contract states check ordering, timeout handling,
 conflict resolution, and which baseline safety controls no evaluator can
 override.
 
-**Observe.** The contract between enforcement points and evaluators. An
-evaluator that can disable a baseline control, or an undefined behaviour when
-two evaluators disagree, is a finding.
+**Observe.** The contract between enforcement points and evaluators, then one
+behavioural test on the disposable instance: take an evaluator down and
+confirm the enforcement point fails closed or enters the R1 operator-wait
+state. An enforcement point that passes traffic while its evaluator is
+unreachable was never distinct from it, and that is a finding. An evaluator
+that can disable a baseline control, or undefined behaviour when two
+evaluators disagree, is a finding.
 
 **Example mechanisms.** A policy decision point separate from the dispatcher;
 a documented precedence order; a hard-coded deny list that evaluators cannot
@@ -312,10 +367,12 @@ registry consulted per step rather than per run.
 the delegate's permitted scope is a subset of the delegator's scope at
 delegation time, and is re-evaluated at the delegate's own pickup under A3. A
 delegate cannot acquire a capability, budget, visibility, or egress path that
-its delegator lacked.
+its delegator lacked. Scopes are recorded in a form that permits comparison; a
+scope expressed only in prose cannot be audited for subset.
 
-**Observe.** For a delegation chain, compare the scopes at each level. Any
-widening is a finding. A delegate that reads policy from a different source
+**Observe.** For a delegation chain, compare the recorded scopes at each
+level. Any widening is a finding. A scope whose form does not permit
+comparison is a finding. A delegate that reads policy from a different source
 than its delegator is a finding under A2.
 
 **Example mechanisms.** Scope tokens attenuated at each hop; the delegator's
@@ -329,8 +386,12 @@ evaluation calls, auxiliary fetches, delegates (A4), and external jobs that
 may keep running after cancellation. Permission to start a workflow is never
 implicit authorization to exceed a declared limit.
 
-**Observe.** The declared limit and the sum of what the run could consume on
-its worst permitted path. A gap is a finding.
+**Observe.** From the step map, identify the worst permitted path: maximum
+retries, every delegate, every downstream evaluation, every external job that
+survives cancellation. Then test rather than sum: on the disposable instance,
+set a small declared limit, drive that path, and compare total spend against
+the limit. Spend above the limit is a finding. An unbounded component on the
+path is a finding under N3 or A4 before the test is run.
 
 **Example mechanisms.** Atomic reservation against a ledger before each
 effectful call; a per-run ceiling that delegates draw from.
@@ -341,8 +402,10 @@ effectful call; a per-run ceiling that delegates draw from.
 role or agent is described as read-only or sandboxed, the runtime enforces
 that restriction. Omitting a named helper tool is not enforcement.
 
-**Observe.** For each described restriction, the mechanism that enforces it.
-A restriction enforced only by prompt text or tool omission is a finding.
+**Observe.** For each restriction the documentation describes, attempt the
+restricted action from the restricted role on the disposable instance. Success
+is a finding. Reading the enforcement mechanism is not a substitute for the
+attempt.
 
 **Example mechanisms.** Filesystem and network policy applied at the process
 boundary; a read-only credential rather than an instruction not to write.
@@ -407,11 +470,16 @@ know.
   "zero cost".
 - If a workflow is cancelled while external work is active, the system
   records **local termination** and **confirmed external terminal state**
-  separately, retaining all known resource and cost facts.
+  separately, and records the resource and cost facts the external provider
+  reports at termination time.
 
-**Observe.** The recorded state after a send-then-crash or cancel-while-active
-scenario. A zero where the system could not have known the value is a
-finding.
+**Observe.** The recorded state after two induced scenarios on the disposable
+instance: a crash between the send and the identifier write, and a cancel
+while external work is active. A zero or "no effect" where the system could
+not have known the value is a finding. Compare the recorded cost facts against
+the provider's own record for the same job; a provider fact missing from the
+record is a finding. Both scenarios require a fault injection point. Without
+one, record R4 as unobserved.
 
 **Example mechanisms.** A tri-state effect record (confirmed, confirmed-none,
 uncertain); cost fields that distinguish "0" from "unknown".
