@@ -26,17 +26,25 @@ binary.
   ([ADR-061](https://github.com/C360Studio/semteams/blob/main/docs/adr/061-agent-runtime-ownership-and-observable-work.md)).
   These implement stable attempt identity, revision-bound approvals,
   separation of harness facts from model claims, and operator recovery from
-  interrupted work.
+  interrupted work. For a worked HAAG 0.2.0 walkthrough of the SemTeams
+  `research` and `/pulse` workflow and its five open findings, see
+  [protocol/examples/semteams-research-walkthrough.md](protocol/examples/semteams-research-walkthrough.md)
+  and [SemTeams #352](https://github.com/C360Studio/semteams/issues/352).
 
 ## History
 
 - **SemStreams (origin).** The blind-built edge-triage golden and Golden
-  Supplement N1 (now Supplement H1) originated in [SemStreams](https://github.com/C360Studio/semstreams)
+  Supplement N1 (now Supplement H1) originated in
+  [SemStreams](https://github.com/C360Studio/semstreams)
   ([issue #1367](https://github.com/C360Studio/semstreams/issues/1367),
   PR #1368) before the substrate was extracted into SemEngine and the agentic
   runtime consolidated into SemTeams.
-- **2026-10-20.** Specification and protocols published as 0.1.0-draft in
-  this repository.
+- **2026-10-20 (0.1.0-draft).** Initial specification and protocols published
+  as ONUS under CC BY 4.0.
+- **2026-10-20 (0.2.0).** Renamed to HAAG (Human-Agent Accountability and
+  Governance), added A7 (revision-bound approvals), tightened runtime fault
+  observations, streamlined walkthrough and H1 protocols for practitioners, and
+  froze principle identifiers N1 through R5.
 
 ## Adding an implementation
 
