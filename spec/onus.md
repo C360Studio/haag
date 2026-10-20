@@ -121,12 +121,16 @@ bounded and checked.
 
 **Property.** Every numeric or invariant-bearing value a model produces passes
 through a code check that bounds or verifies it before the value is used in a
-state transition, a settlement, or a user-facing figure. Calculations,
-aggregations, schema routing, state transitions, and formatting are performed
-by code. A number a model legitimately produces (a rubric score, a triage
-priority) is recorded as a model claim (see E2), not as an observed fact.
-Whether a duty should have been code at all is a question for N4, where it is
-tested rather than asserted.
+state transition, a settlement, or a user-facing figure. A user-facing figure
+is a structured metric, total, score, or field presented outside a region
+labelled as model claim (see E2); a number inside free-text model prose
+rendered in a claim region is a claim, not a figure, and a number extracted
+from that prose into a structured field becomes a figure and must pass the
+check. Calculations, aggregations, schema routing, state transitions, and
+formatting are performed by code. A number a model legitimately produces (a
+rubric score, a triage priority) is recorded as a model claim, not as an
+observed fact. Whether a duty should have been code at all is a question for
+N4, where it is tested rather than asserted.
 
 **Observe.** For each numeric or invariant-bearing model output in the step
 map, follow the data path to its first use. A value that reaches a state
@@ -172,15 +176,22 @@ threshold.
 
 **Property.** Before a model duty is relied upon, the team has stated what
 success means for it and compared it against a simpler baseline (deterministic
-code, a lookup, a human) on a fixed corpus containing known facts,
-distractions, and contradictions. The decision to rely on the duty cites the
-result of that comparison. A syntactically valid response is not evidence that
-the step is useful.
+code, a lookup, a human) on a fixed corpus of representative inputs, edge
+cases, and failure modes for the duty (for an extraction or triage duty: known
+facts, distractions, and contradictions). The comparison record names the duty
+configuration it evaluated: model, prompt or instructions, and check. The
+decision to rely on the duty cites that record. When the model, prompt, or
+check changes materially, the comparison is rerun before the changed duty is
+relied upon; reliance that cites a comparison of a different configuration is
+a finding. A syntactically valid response is not evidence that the step is
+useful.
 
-**Observe.** The stated success criterion, the corpus, the comparison record,
-and the citation from the decision to rely on the duty. A comparison the model
-lost, followed by reliance with no stated reason, is a finding. "No model
-needed" is a valid outcome of the comparison and is recorded as such.
+**Observe.** The stated success criterion, the corpus, the comparison record
+with its named configuration, and the citation from the decision to rely on
+the duty. Compare the configuration in the record with the configuration in
+production. A mismatch, or a comparison the model lost followed by reliance
+with no stated reason, is a finding. "No model needed" is a valid outcome of
+the comparison and is recorded as such.
 
 **Example mechanisms.** A golden corpus checked into the repository; a side-
 by-side run against a rule-based baseline; periodic re-comparison when the
@@ -197,8 +208,11 @@ basis of a result through supported product surfaces.
 
 #### E1. Labelled verification state
 
-**Property.** Data carries labels at every boundary in the step map along four
-independent axes:
+**Property.** At every boundary in the step map that carries external,
+untrusted, or model-derived data (artifacts, evidence, model and tool
+outputs), the data carries labels along four independent axes. Pure control
+edges that carry none of these (authentication, quota reservation, capability
+lookup) are out of scope for E1:
 
 | Axis | Labels |
 | :--- | :--- |
@@ -269,9 +283,13 @@ final user-facing artifacts consume only checked copies, never raw unchecked
 live streams.
 
 **Observe.** The input source of each downstream duty in the step map. Then
-one test on the disposable instance: alter the stored checked copy and confirm
-the downstream duty sees the alteration. A judge that reads the live stream
-rather than the stored copy is a finding.
+one test on the disposable instance, in either form: run with distinguishable
+checked and unchecked fixtures and confirm the downstream duty consumed the
+checked revision; or alter the stored checked copy and confirm that the
+downstream duty either sees the alteration or halts on an integrity or
+revision mismatch. A downstream duty that consumes the live stream, or that
+proceeds on the unaltered live content while the stored copy differs, is a
+finding.
 
 **Example mechanisms.** Downstream duties read from the artifact store by
 revision, not from the producing step's output channel.
@@ -369,9 +387,12 @@ the exact policy or registry revision read at execution time. Work is refused
 at pickup when a capability was disabled after the workflow was scheduled, and
 refusal emits no external traffic.
 
-**Observe.** For a step executed after a policy change, the revision recorded
-on the step. A step that ran under a revision older than the one in force at
-its execution time is a finding.
+**Observe.** On the disposable instance, schedule a multi-step run, then
+revoke a capability or change the policy revision between scheduling and the
+next pickup. Read the revision recorded on that step and capture outbound
+traffic. A step that ran under the older revision, a pickup that did not
+refuse, or any external traffic emitted on refusal is a finding. If the
+instance offers no way to change policy mid-run, record A3 as unobserved.
 
 **Example mechanisms.** Revision read and recorded at pickup; a capability
 registry consulted per step rather than per run.
@@ -458,9 +479,14 @@ policy store, timed-out scanner, network drop). Operational failure of a
 required safety check fails closed or enters a bounded retry or operator-wait
 state. It never passes as "clean".
 
-**Observe.** The recorded outcome of a step whose safety check could not run.
-"Clean" or "passed" in that case is a finding. This principle is shared with
-Authority: a refusal is an authority decision, a failure is not.
+**Observe.** On the disposable instance, take a required safety check down
+(the same fault as the A2 test) and run a step that depends on it. Read the
+recorded outcome. "Clean", "passed", or any outcome indistinguishable from a
+policy denial is a finding; the expected outcomes are fail closed, bounded
+retry, or operator-wait, each recorded as an operational failure. If the
+instance offers no way to take the check down, record R1 as unobserved. This
+principle is shared with Authority: a refusal is an authority decision, a
+failure is not.
 
 **Example mechanisms.** Distinct outcome types for denied and errored; a
 scanner timeout that yields "unscanned" rather than "no match".
@@ -471,11 +497,16 @@ scanner timeout that yields "unscanned" rather than "no match".
 logical effect or overwrite newer state. Consequential state transitions,
 settlements, and artifact writes are guarded.
 
-**Observe.** Replay a completed step. A second effect, or an older result
-overwriting a newer one, is a finding.
+**Observe.** Two tests on the disposable instance. First, replay a completed
+step and confirm no second effect. Second, start two attempts of one step, let
+the later attempt commit, then let the earlier (now stale) attempt finish and
+attempt its write. A second effect from the replay, or the stale attempt's
+write landing over the newer state, is a finding.
 
 **Example mechanisms.** Compare-and-swap; revision guards; idempotency keys
-derived from the attempt identity.
+derived from the identity of the logical effect or step, never from the
+execution attempt, since each retry mints a new attempt and an attempt-derived
+key would not deduplicate across retries.
 
 #### R3. Durable resumption across process replacement
 
