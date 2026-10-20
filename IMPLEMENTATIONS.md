@@ -26,7 +26,10 @@ binary.
   ([ADR-061](https://github.com/C360Studio/semteams/blob/main/docs/adr/061-agent-runtime-ownership-and-observable-work.md)).
   These implement stable attempt identity, revision-bound approvals,
   separation of harness facts from model claims, and operator recovery from
-  interrupted work.
+  interrupted work. For a worked HAAG 0.2.0 walkthrough of the SemTeams
+  `research` and `/pulse` workflow and its five open findings, see
+  [protocol/examples/semteams-research-walkthrough.md](protocol/examples/semteams-research-walkthrough.md)
+  and [SemTeams #352](https://github.com/C360Studio/semteams/issues/352).
 
 ## History
 

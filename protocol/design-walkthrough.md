@@ -64,7 +64,8 @@ operator. Run this walkthrough first; it takes under an hour.
 ## 3. Recording the result
 
 Use the [design walkthrough record template](templates/design-walkthrough-record.md)
-to log what you checked:
+to log what you checked (see the worked
+[SemTeams research walkthrough example](examples/semteams-research-walkthrough.md)):
 
 1. **Findings.** Each place a principle did not hold: the step or stage, the
    principle ID, what you observed, what the property requires, and any

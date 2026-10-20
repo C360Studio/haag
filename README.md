@@ -63,6 +63,7 @@ three-person operator study to get value out of this repository:
 | [protocol/design-walkthrough.md](protocol/design-walkthrough.md) | Fast architecture and PR audit: map a workflow step by step, then walk one scenario through five stages. |
 | [protocol/h1-operator.md](protocol/h1-operator.md) | Supplement H1: a blind human-operator exercise against a pinned release. |
 | [protocol/templates/](protocol/templates/) | Copy-paste templates for the design walkthrough record and the H1 reference sheet, operator packet, and case scoring record. |
+| [protocol/examples/semteams-research-walkthrough.md](protocol/examples/semteams-research-walkthrough.md) | Worked example of a 0.2.0 design walkthrough against the SemTeams `/research` and `/pulse` workflow ([SemTeams #352](https://github.com/C360Studio/semteams/issues/352)). |
 | [IMPLEMENTATIONS.md](IMPLEMENTATIONS.md) | Where the principles are implemented, and where the framework came from. |
 | [CHANGELOG.md](CHANGELOG.md) | Normative and editorial changes by version. |
 
