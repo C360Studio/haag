@@ -6,6 +6,23 @@ Normative changes (anything that alters what counts as a finding) are marked
 
 ## Unreleased
 
+- **normative** Property is the only place a requirement is stated; Observe
+  tests it and introduces none. The change policy now counts any
+  finding-altering edit to Property or Observe as normative. (Issue #5, 1)
+- **normative** E2 requires every model invocation and effectful tool call to
+  be recorded by the harness, which is what N2's Observe relied on. A4's
+  Observe no longer cites A2 for a delegate's policy source. (Issue #5, 1)
+- **normative** A supported surface a responsible person demonstrably cannot
+  use is a finding even when structurally complete. Section 1.1, E2, A1, the
+  walkthrough rubric, and operator protocol section 5.4 state the rule and
+  the evidence required. (Issue #5, 2)
+- **normative** New A7, approval bound to a revision: action, target, input
+  revision, policy revision, and principal, invalidated on change. (Issue
+  #5, 7)
+- **normative** Must/Should distinction removed; every property is a
+  requirement. (Issue #5, 6)
+- Principle count corrected to twenty-two with A7 added. (Issue #5, 4)
+
 - **normative** Section 1.2 defines the reviewer's vantage (records,
   surfaces, configuration, a disposable instance, fault injection) and adds a
   third outcome, unobserved, alongside finding and no finding. Observations
@@ -35,7 +52,7 @@ Normative changes (anything that alters what counts as a finding) are marked
 
 Initial public draft, published as ONUS under CC BY 4.0.
 
-- Specification: four headings, nineteen principles (N1-N4, E1-E6, A1-A6,
+- Specification: four headings, twenty-one principles (N1-N4, E1-E6, A1-A6,
   R1-R5) in property / observe / example-mechanisms form.
 - Design and workflow walkthrough protocol.
 - Supplement N1 blind human-operator protocol with three templates.

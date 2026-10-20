@@ -30,7 +30,7 @@ composite number.
 
 | Path | Contents |
 | :--- | :--- |
-| [spec/onus.md](spec/onus.md) | The specification: nineteen principles in property / observe / example-mechanisms form, and positioning relative to gateway frameworks. |
+| [spec/onus.md](spec/onus.md) | The specification: twenty-two principles in property / observe / example-mechanisms form, and positioning relative to gateway frameworks. |
 | [protocol/design-walkthrough.md](protocol/design-walkthrough.md) | Design-time audit: map a workflow step by step, then walk one scenario through five stages. |
 | [protocol/n1-operator.md](protocol/n1-operator.md) | Supplement N1: a blind human-operator exercise against a pinned release. |
 | [protocol/templates/](protocol/templates/) | Reference sheet, operator packet, and case scoring templates for N1. |
