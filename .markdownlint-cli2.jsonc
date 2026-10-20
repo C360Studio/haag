@@ -1,0 +1,7 @@
+{
+  "config": {
+    "default": true,
+    // Tables carry long cells; wrapping them hurts readability.
+    "MD013": { "line_length": 80, "tables": false }
+  }
+}
