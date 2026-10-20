@@ -6,6 +6,17 @@ Normative changes (anything that alters what counts as a finding) are marked
 
 ## Unreleased
 
+- **normative** N4 binds the comparison record to the duty configuration
+  (model, prompt, check) and requires re-comparison on material change. The
+  corpus description is generalized beyond extraction duties. (Issue #5, 10)
+- **normative** E1 is scoped to boundaries carrying external, untrusted, or
+  model-derived data; pure control edges are out of scope. N1 defines
+  "user-facing figure". (Issue #5, 11)
+- **normative** E4's test accepts an integrity halt as a pass. R2's Observe
+  adds a stale-write test; its example mechanism derives idempotency keys
+  from the logical effect, not the attempt. A3 and R1 become induced tests
+  with unobserved conditions. (Issue #5, 8, 9, 12)
+
 - **normative** Property is the only place a requirement is stated; Observe
   tests it and introduces none. The change policy now counts any
   finding-altering edit to Property or Observe as normative. (Issue #5, 1)
