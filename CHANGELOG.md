@@ -6,6 +6,21 @@ Normative changes (anything that alters what counts as a finding) are marked
 
 ## Unreleased
 
+- The blind human-operator protocol is renamed Supplement H1 (file
+  `protocol/h1-operator.md`) so that N1 names only the specification
+  principle. (Issue #5, 5)
+- The ONUS backronym is dropped; ONUS is the plain word. (Issue #5, 5)
+- Reference Sheet sealing: the digest is recorded in a detached manifest and
+  the case scoring record, never inside the sheet. The sheet records target
+  commit, configuration, and the ONUS revision applied. (Issue #5, 3)
+- Coverage aligned: N4 added to steps 05 and 08, N1 and N3 to the rubric, A7
+  to step 04 and stage 2; H1 case table adds N1, N4, E4, A5, A7. (Issue #5,
+  13)
+- New template `protocol/templates/design-walkthrough-record.md`. (Issue #5,
+  14)
+- Six friction counts, identifier freeze named as the 0.1.0 release, legal
+  premise stated as an analogy. (Issue #5, 15)
+
 - **normative** N4 binds the comparison record to the duty configuration
   (model, prompt, check) and requires re-comparison on material change. The
   corpus description is generalized beyond extraction duties. (Issue #5, 10)

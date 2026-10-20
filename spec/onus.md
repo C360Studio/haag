@@ -1,4 +1,4 @@
-# ONUS: Oversight, Necessity, Uncertainty, Scope
+# ONUS
 
 An agentic governance framework. Responsibility can be delegated.
 Accountability cannot.
@@ -37,9 +37,11 @@ configuration surface, conformance level, or composite maturity score.
 ### 1.1 The governing test: human use and non-delegable accountability
 
 Responsibility for a task can be delegated to an agent. Accountability for the
-outcome cannot. In law this is a non-delegable duty, and it is the premise of
-every principle below. The test across all four headings is therefore
-**human use**: the responsible person must be able to:
+outcome cannot. The law has a name for the analogous idea, the non-delegable
+duty; ONUS takes it as the governance premise of every principle below,
+without claiming it as a legal fact in any jurisdiction. The test across all
+four headings is therefore **human use**: the responsible person must be able
+to:
 
 1. Understand the decision and inspect its basis.
 2. Act within their authority and understand the scope and cost of what they
@@ -54,7 +56,7 @@ reconstructing a workflow from raw logs**.
 A supported surface that a responsible person demonstrably cannot use is a
 finding against the principle that governs that surface, even where the
 surface is structurally complete. The
-[operator protocol](../protocol/n1-operator.md) defines the evidence that
+[operator protocol](../protocol/h1-operator.md) defines the evidence that
 demonstrates it.
 
 ### 1.2 How to read this specification
@@ -306,7 +308,7 @@ through supported product surfaces.
 internal tooling or raw log access is a finding under the human-use test. The
 uncaptured-source clause cannot be checked from the record alone: a record
 that silently omits a source looks identical to one with fewer sources. It is
-observed only by inducing a known-unavailable source, which is N1 protocol
+observed only by inducing a known-unavailable source, which is H1 protocol
 case 3. Without that induced case, record the clause as unobserved.
 
 **Example mechanisms.** A provenance panel on the result surface; receipts
@@ -595,7 +597,7 @@ produce ONUS findings when:
 
 - [Design and workflow walkthrough protocol](../protocol/design-walkthrough.md):
   applying the four questions to a design before or alongside runtime testing.
-- [N1 blind human-operator protocol](../protocol/n1-operator.md): a bounded
+- [H1 blind human-operator protocol](../protocol/h1-operator.md): a bounded
   empirical exercise against a pinned release.
 - [Implementations and history](../IMPLEMENTATIONS.md): where ONUS
   responsibilities are implemented and where the framework originated.
@@ -606,5 +608,6 @@ Any change to a Property or Observe paragraph that alters what counts as a
 finding is a normative change and is recorded in
 [CHANGELOG.md](../CHANGELOG.md) under the specification. Adding or revising
 example mechanisms or other prose is not a normative change. Principle
-identifiers (N1 through R5) are stable once published. A withdrawn principle
-keeps its identifier and is marked withdrawn.
+identifiers (N1 through R5) freeze at the 0.1.0 release, when the draft
+suffix drops, and are stable from then on. A withdrawn principle keeps its
+identifier and is marked withdrawn.

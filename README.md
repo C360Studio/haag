@@ -3,9 +3,10 @@
 **An agentic governance framework. Responsibility can be delegated.
 Accountability cannot.**
 
-ONUS (Oversight, Necessity, Uncertainty, Scope) governs systems that mix
-deterministic software with model or agent steps. It is built on four
-questions remembered as **NEAR**: Necessity, Evidence, Authority, Recovery.
+ONUS is the plain word: the burden that stays with the person who delegates.
+It governs systems that mix deterministic software with model or agent steps,
+and is built on four questions remembered as **NEAR**: Necessity, Evidence,
+Authority, Recovery.
 
 Gateway frameworks govern the pipe. ONUS governs the workflow and the human
 decision.
@@ -32,8 +33,8 @@ composite number.
 | :--- | :--- |
 | [spec/onus.md](spec/onus.md) | The specification: twenty-two principles in property / observe / example-mechanisms form, and positioning relative to gateway frameworks. |
 | [protocol/design-walkthrough.md](protocol/design-walkthrough.md) | Design-time audit: map a workflow step by step, then walk one scenario through five stages. |
-| [protocol/n1-operator.md](protocol/n1-operator.md) | Supplement N1: a blind human-operator exercise against a pinned release. |
-| [protocol/templates/](protocol/templates/) | Reference sheet, operator packet, and case scoring templates for N1. |
+| [protocol/h1-operator.md](protocol/h1-operator.md) | Supplement H1: a blind human-operator exercise against a pinned release. |
+| [protocol/templates/](protocol/templates/) | Design walkthrough record, and the H1 reference sheet, operator packet, and case scoring record. |
 | [IMPLEMENTATIONS.md](IMPLEMENTATIONS.md) | Where the principles are implemented, and where the framework came from. |
 | [CHANGELOG.md](CHANGELOG.md) | Normative and editorial changes by version. |
 
@@ -43,13 +44,14 @@ composite number.
    observe, and example mechanisms. Only the property is normative.
 2. Run the design walkthrough on one representative workflow. Record findings
    against principle identifiers.
-3. Before a release, run N1 with a person who did not build the system.
+3. Before a release, run H1 with a person who did not build the system.
    Record per-case outcomes and friction counts. Do not average them.
 
 ## Status
 
-0.1.0-draft. Principle identifiers are not yet frozen. Open an issue to
-propose a change; normative changes are tracked in the changelog.
+0.1.0-draft. Principle identifiers freeze at the 0.1.0 release, when the
+draft suffix drops; until then they may change. Open an issue to propose a
+change; normative changes are tracked in the changelog.
 
 ## Credits
 
@@ -57,7 +59,8 @@ propose a change; normative changes are tracked in the changelog.
   <https://www.druhindhavala.com/ai-governance/gates-framework/>. Licensed
   under CC BY 4.0. Cited in the specification as a published example of a
   perimeter gateway framework.
-- Supplement N1 originated in the C360 Studio SemStreams project. See
+- Supplement H1 originated as Golden Supplement N1 in the C360 Studio
+  SemStreams project. See
   [IMPLEMENTATIONS.md](IMPLEMENTATIONS.md).
 
 ## License

@@ -1,4 +1,4 @@
-# N1 Operator Packet
+# H1 Operator Packet
 
 <!-- CC BY 4.0 licensed template. Give the operator this file and nothing else from
      the exercise. Do not include the Reference Sheet, the builder transcript,

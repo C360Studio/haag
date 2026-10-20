@@ -1,4 +1,4 @@
-# ONUS Supplement N1: Blind Human-Operator Evaluation Protocol
+# ONUS Supplement H1: Blind Human-Operator Evaluation Protocol
 
 **Version:** 0.1.0-draft
 **Applies to:** [ONUS specification](../spec/onus.md) 0.1.0-draft
@@ -6,8 +6,9 @@
 
 Automated tests prove that code paths execute as written. They do not prove
 that a person can govern the system under realistic information boundaries.
-N1 is a bounded, repeatable empirical exercise run against a pinned release
-tag. Its output is a set of findings, never a score.
+H1 is a bounded, repeatable empirical exercise run against a pinned release
+tag. Its output is a set of findings, never a score. H is for human; the
+letter avoids collision with specification principle N1.
 
 ## 1. Information boundaries and roles
 
@@ -32,10 +33,12 @@ human participant is available, record the exercise as `NOT RUN`.
 
 ## 2. Pre-exercise frozen Reference Sheet
 
-Before showing any case to the operator, the scorer timestamps, hashes
-(SHA-256), and seals a private Reference Sheet. Use the
-[reference sheet template](templates/reference-sheet.md). It contains, per
-case:
+Before showing any case to the operator, the scorer finalizes a private
+Reference Sheet, computes the SHA-256 digest of the finished file, and records
+the digest and timestamp in a detached manifest and in each case scoring
+record. The digest is never written into the sheet itself, since doing so
+would change the bytes it describes. Use the [reference sheet
+template](templates/reference-sheet.md). It contains, per case:
 
 - Task purpose, deterministic steps, and model duties (N).
 - Named accountable role, permitted actions, and policy and evidence
@@ -115,7 +118,7 @@ questions.
 
 ## 5. Scoring
 
-Record two separate classifications per case, five friction counts, and a
+Record two separate classifications per case, six friction counts, and a
 property record. Use the [case scoring template](templates/case-scoring.md).
 Never combine any of them into a composite.
 
@@ -152,9 +155,10 @@ Per case:
 2. Requests for coordinator assistance. Retain the operator's unassisted
    answer before giving any hint.
 3. Approval prompts encountered.
-4. Evidence retrieval cost: distinct requests, and distinct services or ports,
-   needed to inspect the outcome.
-5. Elapsed wall-clock time to the unassisted answer.
+4. Evidence retrieval cost: distinct requests needed to inspect the outcome.
+5. Evidence retrieval cost: distinct services or ports needed to inspect the
+   outcome.
+6. Elapsed wall-clock time to the unassisted answer.
 
 ### 5.4 Property record
 
@@ -197,8 +201,8 @@ not.
 
 | Case | Properties usually exercised |
 | :--- | :--- |
-| 1. Supported action | N2, N3, E1, E2, E3, E5, A1, A3 |
-| 2. Disallowed action | A1, A2, A3, A4, A6, R1 |
+| 1. Supported action | N1, N2, N3, N4, E1, E2, E3, E4, E5, A1, A3, A7 |
+| 2. Disallowed action | A1, A2, A3, A4, A5, A6, A7, R1 |
 | 3. Insufficient evidence | E1, E3, E5, R1 |
 | 4. Process replacement or interruption | A3, R2, R3, R4, R5 |
 
@@ -209,7 +213,7 @@ point, R3 and R4 are `UNOBSERVED` for that reason, and the case may have to be
 
 ## 6. What one run means
 
-One operator and four cases produce findings, not rates. The result of an N1
+One operator and four cases produce findings, not rates. The result of an H1
 run is the per-case record, the property record with its unobserved rows
 intact, and the list of findings it supports. Results are never aggregated
 across runs into a percentage, a pass rate, a coverage rate, or a composite
@@ -218,6 +222,8 @@ and property by property; they may not be averaged.
 
 ## 7. History
 
-N1 originated as the Golden Supplement N1 blind-operator exercise in the
-SemStreams project. See [IMPLEMENTATIONS.md](../IMPLEMENTATIONS.md) for the
-lineage and current implementing projects.
+H1 originated as the Golden Supplement N1 blind-operator exercise in the
+SemStreams project, and was renamed H1 in this repository so that N1 names
+only the specification principle. See
+[IMPLEMENTATIONS.md](../IMPLEMENTATIONS.md) for the lineage and current
+implementing projects.

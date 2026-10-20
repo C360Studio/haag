@@ -11,7 +11,7 @@ across architectural boundaries rather than bundled into one governance
 binary.
 
 - **ONUS specification and protocols (this repository).** Owns the four
-  observation questions, the design walkthrough rubric, and the N1 blind
+  observation questions, the design walkthrough rubric, and the H1 blind
   human-operator protocol.
 - **[SemEngine](https://github.com/C360Studio/semengine).** Owns the generic,
   domain-neutral substrate: knowledge graph, NATS transport, revision-guarded
@@ -30,8 +30,8 @@ binary.
 
 ## History
 
-- **SemStreams (origin).** The blind-built edge-triage golden and Supplement
-  N1 originated in [SemStreams](https://github.com/C360Studio/semstreams)
+- **SemStreams (origin).** The blind-built edge-triage golden and Golden
+  Supplement N1 (now Supplement H1) originated in [SemStreams](https://github.com/C360Studio/semstreams)
   ([issue #1367](https://github.com/C360Studio/semstreams/issues/1367),
   PR #1368) before the substrate was extracted into SemEngine and the agentic
   runtime consolidated into SemTeams.

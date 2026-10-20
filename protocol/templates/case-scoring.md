@@ -1,4 +1,4 @@
-# N1 Case Scoring Record
+# H1 Case Scoring Record
 
 <!-- CC BY 4.0 licensed template. One copy per case. Fill in the operator's
      unassisted answer before giving any hint. -->
@@ -8,6 +8,7 @@
 | Exercise ID | |
 | Case | 1 / 2 / 3 / 4 |
 | Reference Sheet SHA-256 | |
+| Reference Sheet sealed at (UTC) | |
 | Operator session start (UTC) | |
 
 ## Operator's unassisted answers (verbatim)
