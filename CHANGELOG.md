@@ -27,6 +27,9 @@ Normative changes (anything that alters what counts as a finding) are marked
 - Design walkthrough protocol records all three outcomes (finding, no
   finding, unobserved) and a coverage record, matching specification
   section 1.2.
+- N1 protocol adds a per-case property record: the Reference Sheet declares
+  which properties each case exercises before the session, and the scorer
+  records finding, no finding, or unobserved for each. Templates updated.
 
 ## 0.1.0-draft - 2026-10-20
 
