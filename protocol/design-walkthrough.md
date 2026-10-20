@@ -6,8 +6,10 @@
 
 Before or alongside runtime testing, a team can apply ONUS as a structured
 design and workflow audit across every step of an end-to-end journey. The
-output is a list of findings tagged to specification principles, never a
-score.
+output is a per-principle outcome record tagged to specification principles,
+never a score. The step map produced in section 1 is also the coverage basis
+for every observation in the specification (see
+[specification section 1.2](../spec/onus.md#12-how-to-read-this-specification)).
 
 ## 1. Step-by-step workflow mapping
 
@@ -63,6 +65,13 @@ it is cheaper.
 
 ## 3. Recording the result
 
+The reviewer applying this protocol has the vantage defined in specification
+section 1.2: records, surfaces, configuration, a disposable non-production
+instance, and fault injection on it. Each principle observed yields one of
+three outcomes, and all three are recorded.
+
+### 3.1 Findings
+
 Record each finding as:
 
 - the step or stage,
@@ -71,6 +80,36 @@ Record each finding as:
 - what the property requires,
 - and, for a "should", the trade-off the team accepted.
 
+### 3.2 No finding
+
+Record each principle that was observed and holds as:
+
+- the step or stage,
+- the principle identifier,
+- and what was inspected or which test was run.
+
+A no-finding without a named inspection or test is recorded as unobserved.
+
+### 3.3 Unobserved
+
+Record each principle that could not be observed as:
+
+- the step or stage,
+- the principle identifier,
+- and the reason: the missing record, instance, surface, or fault point.
+
+Unobserved is never reported as satisfied. A spec Observe paragraph that
+names an unobserved condition (for example, no invocation record for N2, no
+fault injection point for R4) produces this outcome, not a pass.
+
+### 3.4 Coverage
+
+Alongside the outcomes, record which steps, edges, and surfaces of the step
+map were inspected and which were not. Findings and no-findings come from
+what was inspected. What was not inspected is coverage, not a pass.
+
+### 3.5 No totals
+
 Do not total the findings. Do not compute a percentage of principles
-satisfied. A single finding at step 05 under R4 can matter more than every
-other row combined.
+satisfied, observed, or covered. A single finding at step 05 under R4 can
+matter more than every other row combined.

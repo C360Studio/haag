@@ -24,6 +24,9 @@ Normative changes (anything that alters what counts as a finding) are marked
   reports at termination time.
 - Observe paragraphs for N2, E1, E4, E5, A2, A5, A6 and R4 now name a bounded
   test or an unobserved condition instead of a reading.
+- Design walkthrough protocol records all three outcomes (finding, no
+  finding, unobserved) and a coverage record, matching specification
+  section 1.2.
 
 ## 0.1.0-draft - 2026-10-20
 
