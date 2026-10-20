@@ -1,0 +1,37 @@
+name: lint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    # Weekly link check so external rot surfaces without a PR.
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  markdownlint:
+    # Required in branch protection. Formatting only; never checks links.
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: "**/*.md"
+
+  links:
+    # Advisory on PRs, scheduled weekly. Not required in branch protection,
+    # because external rot should not block an unrelated change.
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config lychee.toml --no-progress './**/*.md'
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
