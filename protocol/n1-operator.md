@@ -43,6 +43,10 @@ case:
 - Exact test inputs and observable runtime facts (E).
 - Justified expected human decisions and expected runtime transitions (A, R).
 - Facts that genuinely remain unknown from the record (E, R).
+- The specification properties the case is designed to exercise, by
+  identifier (N1 through R5), and any the scorer already knows cannot be
+  observed on this release, with the reason. Declaring these before the
+  session is what stops the property record being written to fit the result.
 
 **Integrity rule.** Use only the system's declared policy and actual
 capabilities. Never invent a guarantee the runtime does not enforce. If an
@@ -111,9 +115,9 @@ questions.
 
 ## 5. Scoring
 
-Record two separate classifications per case and five friction counts. Use
-the [case scoring template](templates/case-scoring.md). Never combine them
-into a composite.
+Record two separate classifications per case, five friction counts, and a
+property record. Use the [case scoring template](templates/case-scoring.md).
+Never combine any of them into a composite.
 
 ### 5.1 Human comprehension outcome
 
@@ -152,13 +156,58 @@ Per case:
    needed to inspect the outcome.
 5. Elapsed wall-clock time to the unassisted answer.
 
+### 5.4 Property record
+
+For each specification property the sealed Reference Sheet declared the case
+exercises, record one of the three outcomes defined in
+[specification section 1.2](../spec/onus.md#12-how-to-read-this-specification):
+
+- `FINDING`: the property does not hold. Name what was observed and what the
+  property requires.
+- `NO FINDING`: the property was observed and holds. Name the inspection, the
+  test, or the operator action that showed it.
+- `UNOBSERVED`: the property could not be observed in this case. Name the
+  missing record, surface, instance, or fault point.
+
+Rules:
+
+- Every declared property gets a row. A declared property with no row is
+  recorded as `UNOBSERVED` with the reason "not recorded".
+- A property the case exercised but the Reference Sheet did not declare may
+  be added, marked as undeclared. Undeclared rows are reported separately so
+  that a run cannot be made to look thorough after the fact.
+- A `NO FINDING` with nothing named in the basis column is recorded as
+  `UNOBSERVED`.
+- A human comprehension `MISMATCH` is not by itself a property `FINDING`. It
+  points at a property to inspect. The property outcome is decided from the
+  system's records and surfaces, not from the operator's answer.
+- `UNOBSERVED` is never reported as satisfied and is never dropped from the
+  run record.
+
+The table below is a starting point for which properties each standard case
+usually exercises. The sealed Reference Sheet is authoritative; this table is
+not.
+
+| Case | Properties usually exercised |
+| :--- | :--- |
+| 1. Supported action | N2, N3, E1, E2, E3, E5, A1, A3 |
+| 2. Disallowed action | A1, A2, A3, A4, A6, R1 |
+| 3. Insufficient evidence | E1, E3, E5, R1 |
+| 4. Process replacement or interruption | A3, R2, R3, R4, R5 |
+
+Case 4 depends on an interruption the scorer can induce. If the sealed
+release offers no way to stop a process or cut an uplink at the required
+point, R3 and R4 are `UNOBSERVED` for that reason, and the case may have to be
+`NOT RUN`.
+
 ## 6. What one run means
 
 One operator and four cases produce findings, not rates. The result of an N1
-run is the per-case record and the list of findings it supports. Results are
-never aggregated across runs into a percentage, a pass rate, or a composite
-score. Two runs against different releases may be compared finding by
-finding; they may not be averaged.
+run is the per-case record, the property record with its unobserved rows
+intact, and the list of findings it supports. Results are never aggregated
+across runs into a percentage, a pass rate, a coverage rate, or a composite
+score. Two runs against different releases may be compared finding by finding
+and property by property; they may not be averaged.
 
 ## 7. History
 

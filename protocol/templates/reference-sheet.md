@@ -45,6 +45,11 @@ edit this sheet after sealing.
 - Facts the retained evidence cannot establish (an operator answer of
   "unknown" here is a MATCH):
 
+### Specification properties exercised
+
+- Property identifiers (N1 through R5) this case is designed to exercise:
+- Properties already known to be unobservable on this release, with reason:
+
 ## Case 2: Disallowed action
 
 (Repeat the section headings from case 1.)

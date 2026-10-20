@@ -53,9 +53,27 @@ One of `OBSERVED AS EXPECTED`, `OBSERVED DIFFERENCE`, `UNKNOWN`, `NOT RUN`.
 
 -
 
+## Property record
+
+One row per specification property the sealed Reference Sheet declared for
+this case. Outcome is `FINDING`, `NO FINDING`, or `UNOBSERVED`. A `NO FINDING`
+with an empty basis is recorded as `UNOBSERVED`. Properties the case exercised
+but the Reference Sheet did not declare go in the second table.
+
+| Property | Outcome | Basis (what was inspected or tested, or why unobserved) |
+| :--- | :--- | :--- |
+| | | |
+
+Undeclared properties exercised by this case:
+
+| Property | Outcome | Basis |
+| :--- | :--- | :--- |
+| | | |
+
 ## Findings supported by this case
 
-Each finding names a specification principle (N1 through R5), what was
-observed, and what the property requires. Do not total findings.
+Each finding names a specification property (N1 through R5), what was
+observed, and what the property requires. Every finding here has a `FINDING`
+row above. Do not total findings.
 
 -
