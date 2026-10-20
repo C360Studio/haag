@@ -1,0 +1,7 @@
+# Link checker configuration for the weekly and per-PR lychee job.
+accept = [200, 206, 429]
+max_retries = 3
+timeout = 20
+# GitHub rate limits unauthenticated requests; the token in CI covers it,
+# but treat 429 as acceptable so a burst does not fail the run.
+exclude = ["^mailto:"]
